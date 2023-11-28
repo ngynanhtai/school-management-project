@@ -1,7 +1,8 @@
-/initial-project/target/
-/initial-project/.settings/
-/initial-project/.classpath
-/initial-project/.factorypath
-/initial-project/.gitignore
-/initial-project/.project
-/initial-project/logs/
+/source/target/
+/source/target/.settings/
+/source/target/.classpath
+/source/.factorypath
+/source/.gitignore
+/source/.project
+/source/logs/
+/source/.idea
