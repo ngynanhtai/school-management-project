@@ -42,4 +42,5 @@ public class Constant {
 
 	// ---------------ROLE-----------------------//
 	public static final String STUDENT_ROLE = "STUDENT";
+	public static final String TEACHER_ROLE = "TEACHER";
 }

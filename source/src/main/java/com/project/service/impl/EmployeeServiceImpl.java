@@ -1,11 +1,14 @@
 package com.project.service.impl;
 
+import com.project.constant.Constant;
 import com.project.dto.request.EmployeeRequest;
 import com.project.dto.response.EmployeeResponse;
+import com.project.dto.response.RoleResponse;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Employee;
 import com.project.model.entity.Role;
 import com.project.model.mapstruct.EmployeeMapstruct;
+import com.project.model.mapstruct.RoleMapstruct;
 import com.project.repository.EmployeeRepository;
 import com.project.service.EmployeeService;
 import com.project.service.RoleService;
@@ -15,6 +18,7 @@ import com.project.utils.ListUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -30,6 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Autowired
+    @Lazy
     private RoleService roleService;
 
     @Override
@@ -55,15 +60,36 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeResponse add(EmployeeRequest request) {
         Employee employee = EmployeeMapstruct.toEntity(request);
 
-        if (!ObjectUtils.isEmpty(request.getRoleId())) {
-            Role role = roleService.findEntityById(request.getRoleId());
-            if (role == null) {
-                log.error("Create Employee Error. Cannot find role with ID: {}", request.getRoleId());
-                ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
-            }
-            employee.setRole(role);
-            employee.setCode(CommonMethods.randomCode(role.getType()));
+        if (ObjectUtils.isEmpty(request.getRoleId())) {
+            log.error("Create Employee Error. Employee must not have a Role");
+            ExceptionUtil.throwCustomException(MessageCodeEnum.ROLE_IS_NULL);
         }
-        return EmployeeMapstruct.toDTO(employeeRepository.save(employee));
+
+        Role role = roleService.findEntityById(request.getRoleId());
+        if (role == null) {
+            log.error("Create Employee Error. Cannot find role with ID: {}", request.getRoleId());
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+        }
+
+        if (Constant.STUDENT_ROLE.equalsIgnoreCase(role.getType())) {
+            log.error("Create Employee Error. Employee must not be Student: {}", request.getRoleId());
+            ExceptionUtil.throwCustomException(MessageCodeEnum.ROLE_NOT_ACCEPT);
+        }
+        employee.setRole(role);
+        employee.setCode(CommonMethods.randomCode(role.getType()));
+
+        RoleResponse roleDTO = RoleMapstruct.toDTO(role);
+        EmployeeResponse result = EmployeeMapstruct.toDTO(employeeRepository.save(employee));
+        result.setRole(roleDTO);
+        return result;
+    }
+
+    @Override
+    public Employee findEntityById(Long id) {
+        Employee employee = employeeRepository.findById(id).orElse(null);
+        if (employee == null) {
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+        }
+        return employee;
     }
 }

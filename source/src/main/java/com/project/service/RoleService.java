@@ -7,9 +7,12 @@ import com.project.model.entity.Role;
 import java.util.List;
 
 public interface RoleService {
+    // DTO
     RoleResponse add(RoleRequest request);
     List<RoleResponse> findAll();
     RoleResponse detail(Long id);
+
+    // ENTITY
     Role findEntityById(Long id);
     Role findEntityByType(String type);
 }

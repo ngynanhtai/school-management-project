@@ -5,9 +5,6 @@ server:
 spring:
   application:
     name: school-management-system
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
   mail:
     host: smtp.gmail.com
     port: 465

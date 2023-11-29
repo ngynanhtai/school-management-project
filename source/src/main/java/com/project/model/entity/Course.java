@@ -47,10 +47,6 @@ public class Course {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "course")
     private Set<ClassAllocation> classAllocations;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "weekdays_id", referencedColumnName = "id")
-    private Weekdays weekdays;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     private Subject subject;

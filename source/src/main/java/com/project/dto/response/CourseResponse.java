@@ -20,6 +20,5 @@ public class CourseResponse {
     private Double fee;
     private Timestamp createdDate;
     private List<ClassAllocationResponse> classAllocations;
-    private WeekdaysResponse weekdays;
     private SubjectResponse subject;
 }

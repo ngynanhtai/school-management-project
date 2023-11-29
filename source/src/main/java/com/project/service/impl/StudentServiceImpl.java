@@ -6,6 +6,7 @@ import com.project.dto.response.StudentResponse;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Role;
 import com.project.model.entity.Student;
+import com.project.model.mapstruct.RoleMapstruct;
 import com.project.model.mapstruct.StudentMapstruct;
 import com.project.repository.StudentRepository;
 import com.project.service.RoleService;
@@ -14,8 +15,8 @@ import com.project.utils.CommonMethods;
 import com.project.utils.ExceptionUtil;
 import com.project.utils.ListUtil;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -31,6 +32,7 @@ public class StudentServiceImpl implements StudentService {
     private StudentRepository studentRepository;
 
     @Autowired
+    @Lazy
     private RoleService roleService;
 
     @Override
@@ -53,6 +55,9 @@ public class StudentServiceImpl implements StudentService {
         }
         student.setRole(role);
         student.setCode(CommonMethods.randomCode(role.getType()));
-        return StudentMapstruct.toDTO(studentRepository.save(student));
+
+        StudentResponse result = StudentMapstruct.toDTO(studentRepository.save(student));
+        result.setRole(RoleMapstruct.toDTO(role));
+        return result;
     }
 }

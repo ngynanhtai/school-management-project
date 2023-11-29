@@ -52,8 +52,8 @@ public class CommonMethods {
         return buffer.toString();
     }
 
-    public static String randomCode(String roleType) {
-        return roleType
+    public static String randomCode(String type) {
+        return type
                 .concat(Constant.HYPHEN)
                 .concat(RandomStringUtils.random(4, true, true).toLowerCase())
                 .concat(Constant.HYPHEN)

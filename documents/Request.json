@@ -1,0 +1,46 @@
+//Create Employee
+{
+    "address": "24C Phan Đăng Lưu",
+    "district": "Bình Thạnh",
+    "dob": "21-05-2001",
+    "email": "nguyen.anh-tai1@hdsaison.com.vn",
+    "fullName": "Nguyễn Anh Tài",
+    "gender": "male",
+    "maritalStatus": "SINGLE",
+    "nationalId": "079201019196",
+    "phoneNumber": "0931207366",
+    "profession": "12",
+    "province": "HCM",
+    "roleId": 3,
+    "salary": 20000000,
+    "ward": "6"
+}
+
+//Create Student
+{
+  "address": "11 Phạm Văn Chiêu",
+  "district": "4",
+  "dob": "06-05-2014",
+  "email": "hahahihi@gmail.com",
+  "firstParentName": "Nguyen Van A",
+  "firstParentPhone": "0964753544",
+  "firstParentRelation": "Ba",
+  "fullName": "Nguyễn Thị Siu",
+  "gender": "female",
+  "province": "HCM",
+  "roleId": 10,
+  "secondParentName": "Nguyen Thi B",
+  "secondParentPhone": "0954687424",
+  "secondParentRelation": "Mẹ",
+  "ward": "10"
+}
+
+
+//Create Classroom
+{
+  "grade": "GRADE01",
+  "name": "1/1",
+  "teacherId": 1,
+  "type": "MAIN",
+  "year": "2023"
+}

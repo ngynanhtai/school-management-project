@@ -14,6 +14,7 @@ public class StudentMapstruct {
         }
         return Student
                 .builder()
+                .id(object.getId())
                 .code(object.getCode())
                 .phoneNumber(object.getPhoneNumber())
                 .fullName(object.getFullName())
