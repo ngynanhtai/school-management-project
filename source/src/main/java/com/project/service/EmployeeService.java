@@ -10,7 +10,4 @@ public interface EmployeeService {
     List<EmployeeDTO> findAll();
     List<EmployeeDTO> findEmployeesByRoleId(Long roleId);
     EmployeeDTO add(EmployeeDTO dto);
-
-    // ENTITY
-    Employee findEntityById(Long id);
 }

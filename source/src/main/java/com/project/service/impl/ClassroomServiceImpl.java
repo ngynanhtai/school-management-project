@@ -7,8 +7,8 @@ import com.project.model.entity.Classroom;
 import com.project.model.entity.Employee;
 import com.project.model.mapstruct.ClassroomMapstruct;
 import com.project.repository.ClassroomRepository;
+import com.project.repository.EmployeeRepository;
 import com.project.service.ClassroomService;
-import com.project.service.EmployeeService;
 import com.project.utils.CommonMethods;
 import com.project.utils.ExceptionUtil;
 import lombok.extern.log4j.Log4j2;
@@ -27,7 +27,7 @@ public class ClassroomServiceImpl implements ClassroomService {
 
     @Autowired
     @Lazy
-    private EmployeeService employeeService;
+    private EmployeeRepository employeeRepository;
 
     @Override
     @Transactional
@@ -39,7 +39,7 @@ public class ClassroomServiceImpl implements ClassroomService {
             ExceptionUtil.throwCustomException(MessageCodeEnum.ROLE_IS_NULL);
         }
 
-        Employee employee = employeeService.findEntityById(dto.getTeacherId());
+        Employee employee = employeeRepository.findById(dto.getTeacherId()).orElse(null);
         if (employee == null) {
             log.error("Create Classroom Error. Cannot find Teacher with ID: {}", dto.getTeacherId());
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);

@@ -4,9 +4,15 @@ import com.project.constant.Constant;
 import com.project.dto.EmployeeDTO;
 import com.project.dto.RoleDTO;
 import com.project.dto.StudentDTO;
+import com.project.model.entity.Employee;
 import com.project.model.entity.Role;
+import com.project.model.entity.Student;
+import com.project.model.mapstruct.EmployeeMapstruct;
 import com.project.model.mapstruct.RoleMapstruct;
+import com.project.model.mapstruct.StudentMapstruct;
+import com.project.repository.EmployeeRepository;
 import com.project.repository.RoleRepository;
+import com.project.repository.StudentRepository;
 import com.project.service.EmployeeService;
 import com.project.service.RoleService;
 import com.project.service.StudentService;
@@ -30,11 +36,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     @Lazy
-    private StudentService studentService;
+    private StudentRepository studentRepository;
 
     @Autowired
     @Lazy
-    private EmployeeService employeeService;
+    private EmployeeRepository employeeRepository;
 
     @Override
     @Transactional
@@ -59,22 +65,12 @@ public class RoleServiceImpl implements RoleService {
 
         RoleDTO dto = RoleMapstruct.toDTO(role);
         if (Constant.STUDENT_ROLE.equalsIgnoreCase(dto.getCode())) {
-            List<StudentDTO> students = studentService.findAll();
-            dto.setStudents(students);
+            List<Student> students = studentRepository.findAll();
+            dto.setStudents(students.stream().map(StudentMapstruct::toDTO).collect(Collectors.toList()));
         } else {
-            List<EmployeeDTO> employees = employeeService.findEmployeesByRoleId(dto.getId());
-            dto.setEmployees(employees);
+            List<Employee> employees = employeeRepository.findEmployeesByRoleId(dto.getId()).orElse(ListUtil.emptyList());
+            dto.setEmployees(employees.stream().map(EmployeeMapstruct::toDTO).collect(Collectors.toList()));
         }
         return dto;
-    }
-
-    @Override
-    public Role findEntityById(Long id) {
-        return roleRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public Role findEntityByType(String type) {
-        return roleRepository.findByType(type);
     }
 }

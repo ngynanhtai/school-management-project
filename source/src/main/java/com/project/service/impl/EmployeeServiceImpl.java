@@ -9,8 +9,8 @@ import com.project.model.entity.Role;
 import com.project.model.mapstruct.EmployeeMapstruct;
 import com.project.model.mapstruct.RoleMapstruct;
 import com.project.repository.EmployeeRepository;
+import com.project.repository.RoleRepository;
 import com.project.service.EmployeeService;
-import com.project.service.RoleService;
 import com.project.utils.CommonMethods;
 import com.project.utils.ExceptionUtil;
 import com.project.utils.ListUtil;
@@ -34,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     @Lazy
-    private RoleService roleService;
+    private RoleRepository roleRepository;
 
     @Override
     public List<EmployeeDTO> findAll() {
@@ -64,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             ExceptionUtil.throwCustomException(MessageCodeEnum.ROLE_IS_NULL);
         }
 
-        Role role = roleService.findEntityById(dto.getRoleId());
+        Role role = roleRepository.findById(dto.getRoleId()).orElse(null);
         if (role == null) {
             log.error("Create Employee Error. Cannot find role with ID: {}", dto.getRoleId());
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
@@ -79,14 +79,5 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         RoleDTO roleDTO = RoleMapstruct.toDTO(role);
         return EmployeeMapstruct.toDTO(employeeRepository.save(employee));
-    }
-
-    @Override
-    public Employee findEntityById(Long id) {
-        Employee employee = employeeRepository.findById(id).orElse(null);
-        if (employee == null) {
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
-        }
-        return employee;
     }
 }

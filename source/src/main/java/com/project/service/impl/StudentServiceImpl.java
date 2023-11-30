@@ -1,13 +1,12 @@
 package com.project.service.impl;
 
-import com.project.constant.Constant;
 import com.project.dto.StudentDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Role;
 import com.project.model.entity.Student;
 import com.project.model.mapstruct.StudentMapstruct;
+import com.project.repository.RoleRepository;
 import com.project.repository.StudentRepository;
-import com.project.service.RoleService;
 import com.project.service.StudentService;
 import com.project.utils.CommonMethods;
 import com.project.utils.ExceptionUtil;
@@ -31,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     @Lazy
-    private RoleService roleService;
+    private RoleRepository roleRepository;
 
     @Override
     public List<StudentDTO> findAll() {
@@ -46,9 +45,9 @@ public class StudentServiceImpl implements StudentService {
     public StudentDTO add(StudentDTO dto) {
         Student student = StudentMapstruct.toEntity(dto);
 
-        Role role = roleService.findEntityByType(Constant.STUDENT_ROLE);
+        Role role = roleRepository.findStudentType();
         if (role == null) {
-            log.error("Create Student Error. Cannot find role with ID: {}", dto.getRoleId());
+            log.error("Create Student Error. Cannot find Student role");
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
         }
         student.setRole(role);
