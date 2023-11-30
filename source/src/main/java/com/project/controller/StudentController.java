@@ -1,7 +1,7 @@
 package com.project.controller;
 
+import com.project.dto.StudentDTO;
 import com.project.dto.common.ResponseDTO;
-import com.project.dto.request.StudentRequest;
 import com.project.enums.MessageCodeEnum;
 import com.project.service.StudentService;
 import com.project.utils.ExceptionUtil;
@@ -19,11 +19,11 @@ public class StudentController {
     private StudentService studentService;
 
     @PostMapping("/student")
-    public ResponseEntity<ResponseDTO> createStudent(@RequestBody StudentRequest request) {
-        if (ObjectUtils.isEmpty(request)) {
+    public ResponseEntity<ResponseDTO> createStudent(@RequestBody StudentDTO dto) {
+        if (ObjectUtils.isEmpty(dto)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.VALIDATION_REQUEST_NULL);
         }
 
-        return ResponseUtil.buildSuccess(studentService.add(request));
+        return ResponseUtil.buildSuccess(studentService.add(dto));
     }
 }

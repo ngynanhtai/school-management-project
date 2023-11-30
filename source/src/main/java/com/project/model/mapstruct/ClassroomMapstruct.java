@@ -1,6 +1,5 @@
 package com.project.model.mapstruct;
 
-import com.project.dto.request.ClassroomRequest;
 import com.project.dto.ClassroomDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Classroom;
@@ -8,7 +7,7 @@ import com.project.utils.ExceptionUtil;
 import org.apache.commons.lang3.ObjectUtils;
 
 public class ClassroomMapstruct {
-    public static Classroom toEntity(ClassroomRequest object) {
+    public static Classroom toEntity(ClassroomDTO object) {
         if (ObjectUtils.isEmpty(object)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.CONVERT_DATA_ERROR);
         }
@@ -39,6 +38,7 @@ public class ClassroomMapstruct {
                 .total(object.getTotal())
                 .type(object.getType())
                 .year(object.getYear())
+                .teacherId(object.getId())
                 .build();
     }
 }

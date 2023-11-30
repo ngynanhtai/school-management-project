@@ -17,9 +17,5 @@ public class ClassroomDTO {
     private int total;
     private String type;
     private String year;
-    private EmployeeDTO teacher;
-    private List<ClassroomDTO> classmates;
-    private List<BorrowEquipmentDTO> borrowEquipments;
-    private List<ClassAllocationDTO> classAllocations;
-    private List<ScoreDTO> scores;
+    private Long teacherId;
 }

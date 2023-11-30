@@ -1,7 +1,7 @@
 package com.project.controller.management;
 
+import com.project.dto.EmployeeDTO;
 import com.project.dto.common.ResponseDTO;
-import com.project.dto.request.EmployeeRequest;
 import com.project.enums.MessageCodeEnum;
 import com.project.service.EmployeeService;
 import com.project.utils.ExceptionUtil;
@@ -22,11 +22,11 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping("/employee")
-    public ResponseEntity<ResponseDTO> createEmployee(@RequestBody EmployeeRequest request) {
-        if (ObjectUtils.isEmpty(request)) {
+    public ResponseEntity<ResponseDTO> createEmployee(@RequestBody EmployeeDTO dto) {
+        if (ObjectUtils.isEmpty(dto)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.VALIDATION_REQUEST_NULL);
         }
 
-        return ResponseUtil.buildSuccess(employeeService.add(request));
+        return ResponseUtil.buildSuccess(employeeService.add(dto));
     }
 }

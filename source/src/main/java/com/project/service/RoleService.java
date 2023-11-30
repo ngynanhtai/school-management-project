@@ -1,6 +1,5 @@
 package com.project.service;
 
-import com.project.dto.request.RoleRequest;
 import com.project.dto.RoleDTO;
 import com.project.model.entity.Role;
 
@@ -8,7 +7,7 @@ import java.util.List;
 
 public interface RoleService {
     // DTO
-    RoleDTO add(RoleRequest request);
+    RoleDTO add(RoleDTO dto);
     List<RoleDTO> findAll();
     RoleDTO detail(Long id);
 

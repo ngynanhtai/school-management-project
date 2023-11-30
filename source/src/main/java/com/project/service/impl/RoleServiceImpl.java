@@ -1,12 +1,10 @@
 package com.project.service.impl;
 
 import com.project.constant.Constant;
-import com.project.dto.request.RoleRequest;
 import com.project.dto.EmployeeDTO;
 import com.project.dto.RoleDTO;
 import com.project.dto.StudentDTO;
 import com.project.model.entity.Role;
-import com.project.model.entity.Student;
 import com.project.model.mapstruct.RoleMapstruct;
 import com.project.repository.RoleRepository;
 import com.project.service.EmployeeService;
@@ -40,8 +38,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public RoleDTO add(RoleRequest request) {
-        return RoleMapstruct.toDTO(roleRepository.save(RoleMapstruct.toEntity(request)));
+    public RoleDTO add(RoleDTO dto) {
+        return RoleMapstruct.toDTO(roleRepository.save(RoleMapstruct.toEntity(dto)));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.project.service.impl;
 
 import com.project.constant.Constant;
-import com.project.dto.request.EmployeeRequest;
 import com.project.dto.EmployeeDTO;
 import com.project.dto.RoleDTO;
 import com.project.enums.MessageCodeEnum;
@@ -57,31 +56,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public EmployeeDTO add(EmployeeRequest request) {
-        Employee employee = EmployeeMapstruct.toEntity(request);
+    public EmployeeDTO add(EmployeeDTO dto) {
+        Employee employee = EmployeeMapstruct.toEntity(dto);
 
-        if (ObjectUtils.isEmpty(request.getRoleId())) {
+        if (ObjectUtils.isEmpty(dto.getRoleId())) {
             log.error("Create Employee Error. Employee must not have a Role");
             ExceptionUtil.throwCustomException(MessageCodeEnum.ROLE_IS_NULL);
         }
 
-        Role role = roleService.findEntityById(request.getRoleId());
+        Role role = roleService.findEntityById(dto.getRoleId());
         if (role == null) {
-            log.error("Create Employee Error. Cannot find role with ID: {}", request.getRoleId());
+            log.error("Create Employee Error. Cannot find role with ID: {}", dto.getRoleId());
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
         }
 
         if (Constant.STUDENT_ROLE.equalsIgnoreCase(role.getType())) {
-            log.error("Create Employee Error. Employee must not be Student: {}", request.getRoleId());
+            log.error("Create Employee Error. Employee must not be Student: {}", dto.getRoleId());
             ExceptionUtil.throwCustomException(MessageCodeEnum.ROLE_NOT_ACCEPT);
         }
         employee.setRole(role);
         employee.setCode(CommonMethods.randomCode(role.getType()));
 
         RoleDTO roleDTO = RoleMapstruct.toDTO(role);
-        EmployeeDTO result = EmployeeMapstruct.toDTO(employeeRepository.save(employee));
-        result.setRole(roleDTO);
-        return result;
+        return EmployeeMapstruct.toDTO(employeeRepository.save(employee));
     }
 
     @Override

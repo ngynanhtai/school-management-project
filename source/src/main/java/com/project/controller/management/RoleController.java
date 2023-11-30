@@ -1,7 +1,7 @@
 package com.project.controller.management;
 
+import com.project.dto.RoleDTO;
 import com.project.dto.common.ResponseDTO;
-import com.project.dto.request.RoleRequest;
 import com.project.enums.MessageCodeEnum;
 import com.project.service.RoleService;
 import com.project.utils.ExceptionUtil;
@@ -19,12 +19,12 @@ public class RoleController {
     private RoleService roleService;
 
     @PostMapping("/role")
-    public ResponseEntity<ResponseDTO> createRole(@RequestBody RoleRequest request) {
-        if (ObjectUtils.isEmpty(request)) {
+    public ResponseEntity<ResponseDTO> createRole(@RequestBody RoleDTO dto) {
+        if (ObjectUtils.isEmpty(dto)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.VALIDATION_REQUEST_NULL);
         }
 
-        return ResponseUtil.buildSuccess(roleService.add(request));
+        return ResponseUtil.buildSuccess(roleService.add(dto));
     }
 
     @GetMapping("/role")

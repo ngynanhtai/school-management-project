@@ -30,12 +30,5 @@ public class EmployeeDTO {
     private String profession;
     private String maritalStatus;
     private Double salary;
-    private RoleDTO role;
-    private List<BorrowEquipmentDTO> borrowEquipments;
-    private List<ClassroomDTO> classrooms;
-    private List<MealDTO> createdMeals;
-    private List<MealDTO> assignedToMeals;
-    private List<ExpenseDTO> createdExpenses;
-    private List<InvoiceDTO> collectorInvoices;
-    private List<ScoreDTO> scores;
+    private Long roleId;
 }

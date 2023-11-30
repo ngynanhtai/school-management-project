@@ -1,14 +1,11 @@
 package com.project.service.impl;
 
 import com.project.constant.Constant;
-import com.project.dto.request.ClassroomRequest;
 import com.project.dto.ClassroomDTO;
-import com.project.dto.EmployeeDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Classroom;
 import com.project.model.entity.Employee;
 import com.project.model.mapstruct.ClassroomMapstruct;
-import com.project.model.mapstruct.EmployeeMapstruct;
 import com.project.repository.ClassroomRepository;
 import com.project.service.ClassroomService;
 import com.project.service.EmployeeService;
@@ -34,30 +31,27 @@ public class ClassroomServiceImpl implements ClassroomService {
 
     @Override
     @Transactional
-    public ClassroomDTO add(ClassroomRequest request) {
-        Classroom classroom = ClassroomMapstruct.toEntity(request);
+    public ClassroomDTO add(ClassroomDTO dto) {
+        Classroom classroom = ClassroomMapstruct.toEntity(dto);
 
-        if (ObjectUtils.isEmpty(request.getTeacherId())) {
+        if (ObjectUtils.isEmpty(dto.getTeacherId())) {
             log.error("Create Classroom Error. Classroom must not have a Teacher");
             ExceptionUtil.throwCustomException(MessageCodeEnum.ROLE_IS_NULL);
         }
 
-        Employee employee = employeeService.findEntityById(request.getTeacherId());
+        Employee employee = employeeService.findEntityById(dto.getTeacherId());
         if (employee == null) {
-            log.error("Create Classroom Error. Cannot find Teacher with ID: {}", request.getTeacherId());
+            log.error("Create Classroom Error. Cannot find Teacher with ID: {}", dto.getTeacherId());
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
         }
 
         if (!Constant.TEACHER_ROLE.equalsIgnoreCase(employee.getRole().getType())) {
-            log.error("Create Classroom Error. Employee must be Teacher: {}", request.getTeacherId());
+            log.error("Create Classroom Error. Employee must be Teacher: {}", dto.getTeacherId());
             ExceptionUtil.throwCustomException(MessageCodeEnum.ROLE_NOT_ACCEPT);
         }
         classroom.setTeacher(employee);
         classroom.setCode(CommonMethods.randomCode(classroom.getGrade()));
 
-        EmployeeDTO employeeDTO = EmployeeMapstruct.toDTO(employee);
-        ClassroomDTO result = ClassroomMapstruct.toDTO(classroomRepository.save(classroom));
-        result.setTeacher(employeeDTO);
-        return result;
+        return ClassroomMapstruct.toDTO(classroomRepository.save(classroom));
     }
 }

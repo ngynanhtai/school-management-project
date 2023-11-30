@@ -1,7 +1,7 @@
 package com.project.controller.management;
 
+import com.project.dto.ClassroomDTO;
 import com.project.dto.common.ResponseDTO;
-import com.project.dto.request.ClassroomRequest;
 import com.project.enums.MessageCodeEnum;
 import com.project.service.ClassroomService;
 import com.project.utils.ExceptionUtil;
@@ -22,11 +22,11 @@ public class ClassroomController {
     private ClassroomService classroomService;
 
     @PostMapping("/classroom")
-    public ResponseEntity<ResponseDTO> createClassroom(@RequestBody ClassroomRequest request) {
-        if (ObjectUtils.isEmpty(request)) {
+    public ResponseEntity<ResponseDTO> createClassroom(@RequestBody ClassroomDTO dto) {
+        if (ObjectUtils.isEmpty(dto)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.VALIDATION_REQUEST_NULL);
         }
 
-        return ResponseUtil.buildSuccess(classroomService.add(request));
+        return ResponseUtil.buildSuccess(classroomService.add(dto));
     }
 }

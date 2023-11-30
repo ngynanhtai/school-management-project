@@ -1,6 +1,5 @@
 package com.project.model.mapstruct;
 
-import com.project.dto.request.StudentRequest;
 import com.project.enums.MessageCodeEnum;
 import com.project.dto.StudentDTO;
 import com.project.model.entity.Student;
@@ -8,7 +7,7 @@ import com.project.utils.ExceptionUtil;
 import org.apache.commons.lang3.ObjectUtils;
 
 public class StudentMapstruct {
-    public static Student toEntity(StudentRequest object) {
+    public static Student toEntity(StudentDTO object) {
         if (ObjectUtils.isEmpty(object)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.CONVERT_DATA_ERROR);
         }
@@ -58,6 +57,7 @@ public class StudentMapstruct {
                 .secondParentName(object.getSecondParentName())
                 .secondParentPhone(object.getSecondParentPhone())
                 .secondParentRelation(object.getSecondParentRelation())
+                .roleId(object.getId())
                 .build();
     }
 }

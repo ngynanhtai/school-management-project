@@ -33,8 +33,5 @@ public class StudentDTO {
     private String secondParentName;
     private String secondParentPhone;
     private String secondParentRelation;
-    private RoleDTO role;
-    private List<ClassmateDTO> classmates;
-    private List<InvoiceDTO> payerInvoices;
-    private List<ScoreDTO> scores;
+    private Long roleId;
 }
