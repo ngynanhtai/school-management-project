@@ -15,8 +15,7 @@ public enum MessageCodeEnum {
     DATA_NOT_FOUND(1710, "data.not.found"),
 
 
-    ROLE_IS_NULL(1730, "role.is.null"),
-    ROLE_NOT_ACCEPT(1731, "role.not.accept")
+    INTERNAL_SERVER_ERROR(1750, "internal.server.error")
     ;
 
     private final Integer code;

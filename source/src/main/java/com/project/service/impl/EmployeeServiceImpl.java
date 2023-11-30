@@ -2,12 +2,10 @@ package com.project.service.impl;
 
 import com.project.constant.Constant;
 import com.project.dto.EmployeeDTO;
-import com.project.dto.RoleDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Employee;
 import com.project.model.entity.Role;
 import com.project.model.mapstruct.EmployeeMapstruct;
-import com.project.model.mapstruct.RoleMapstruct;
 import com.project.repository.EmployeeRepository;
 import com.project.repository.RoleRepository;
 import com.project.service.EmployeeService;
@@ -16,6 +14,7 @@ import com.project.utils.ExceptionUtil;
 import com.project.utils.ListUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -61,7 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         if (ObjectUtils.isEmpty(dto.getRoleId())) {
             log.error("Create Employee Error. Employee must not have a Role");
-            ExceptionUtil.throwCustomException(MessageCodeEnum.ROLE_IS_NULL);
+            ExceptionUtil.throwCustomException(HttpStatus.SC_BAD_REQUEST, "Create Employee Error. Employee must not have a Role");
         }
 
         Role role = roleRepository.findById(dto.getRoleId()).orElse(null);
@@ -72,12 +71,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         if (Constant.STUDENT_ROLE.equalsIgnoreCase(role.getType())) {
             log.error("Create Employee Error. Employee must not be Student: {}", dto.getRoleId());
-            ExceptionUtil.throwCustomException(MessageCodeEnum.ROLE_NOT_ACCEPT);
+            ExceptionUtil.throwCustomException(HttpStatus.SC_BAD_REQUEST, "Create Employee Error. Employee must not be Student: ".concat(dto.getRoleId().toString()));
         }
         employee.setRole(role);
         employee.setCode(CommonMethods.randomCode(role.getType()));
 
-        RoleDTO roleDTO = RoleMapstruct.toDTO(role);
         return EmployeeMapstruct.toDTO(employeeRepository.save(employee));
     }
 }

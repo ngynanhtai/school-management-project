@@ -9,10 +9,10 @@ import com.project.utils.ResponseUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/system")
@@ -28,5 +28,15 @@ public class ClassroomController {
         }
 
         return ResponseUtil.buildSuccess(classroomService.add(dto));
+    }
+
+    @PutMapping("/classroom/{id}/assign-students")
+    public ResponseEntity<ResponseDTO> assignStudents(@PathVariable("id") Long classroomId,
+                                                      @RequestBody List<Long> studentIds) {
+        if (CollectionUtils.isEmpty(studentIds)) {
+            ExceptionUtil.throwCustomException(MessageCodeEnum.VALIDATION_REQUEST_NULL);
+        }
+
+        return ResponseUtil.buildSuccess(classroomService.assignStudents(classroomId, studentIds));
     }
 }
