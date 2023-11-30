@@ -1,4 +1,4 @@
-package com.project.dto.response;
+package com.project.dto;
 
 import lombok.*;
 
@@ -9,9 +9,9 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClassAllocationResponse {
+public class ClassAllocationDTO {
     private Long id;
-    private ClassroomResponse classroom;
-    private CourseResponse course;
+    private ClassroomDTO classroom;
+    private CourseDTO course;
     private Timestamp createdDate;
 }

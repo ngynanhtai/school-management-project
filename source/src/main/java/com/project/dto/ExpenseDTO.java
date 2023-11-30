@@ -1,4 +1,4 @@
-package com.project.dto.response;
+package com.project.dto;
 
 import lombok.*;
 
@@ -9,12 +9,11 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InvoiceResponse {
+public class ExpenseDTO {
     private Long id;
     private String source;
     private String note;
     private Double moneyAmount;
-    private StudentResponse payer;
-    private EmployeeResponse collector;
+    private EmployeeDTO createdBy;
     private Timestamp createdDate;
 }

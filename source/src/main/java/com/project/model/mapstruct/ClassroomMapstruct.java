@@ -1,7 +1,7 @@
 package com.project.model.mapstruct;
 
 import com.project.dto.request.ClassroomRequest;
-import com.project.dto.response.ClassroomResponse;
+import com.project.dto.ClassroomDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Classroom;
 import com.project.utils.ExceptionUtil;
@@ -25,11 +25,11 @@ public class ClassroomMapstruct {
                 .build();
     }
 
-    public static ClassroomResponse toDTO(Classroom object) {
+    public static ClassroomDTO toDTO(Classroom object) {
         if (ObjectUtils.isEmpty(object)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.CONVERT_DATA_ERROR);
         }
-        return ClassroomResponse
+        return ClassroomDTO
                 .builder()
                 .id(object.getId())
                 .code(object.getCode())

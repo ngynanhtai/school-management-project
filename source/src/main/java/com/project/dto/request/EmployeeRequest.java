@@ -1,12 +1,10 @@
 package com.project.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.project.dto.response.*;
 import com.project.utils.DateUtil;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter

@@ -1,7 +1,7 @@
 package com.project.model.mapstruct;
 
 import com.project.dto.request.EmployeeRequest;
-import com.project.dto.response.EmployeeResponse;
+import com.project.dto.EmployeeDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Employee;
 import com.project.utils.ExceptionUtil;
@@ -32,11 +32,11 @@ public class EmployeeMapstruct {
                 .build();
     }
 
-    public static EmployeeResponse toDTO(Employee object) {
+    public static EmployeeDTO toDTO(Employee object) {
         if (ObjectUtils.isEmpty(object)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.CONVERT_DATA_ERROR);
         }
-        return EmployeeResponse
+        return EmployeeDTO
                 .builder()
                 .id(object.getId())
                 .code(object.getCode())

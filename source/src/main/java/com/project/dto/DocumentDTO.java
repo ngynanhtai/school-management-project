@@ -1,4 +1,4 @@
-package com.project.dto.response;
+package com.project.dto;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DocumentResponse {
+public class DocumentDTO {
     private Long id;
     private String path;
     private String typeCode;
@@ -17,5 +17,5 @@ public class DocumentResponse {
     private String classCode;
     private boolean isPublic;
     private Timestamp createdDate;
-    private DocumentTypeResponse documentType;
+    private DocumentTypeDTO documentType;
 }

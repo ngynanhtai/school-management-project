@@ -2,10 +2,11 @@ package com.project.service.impl;
 
 import com.project.constant.Constant;
 import com.project.dto.request.RoleRequest;
-import com.project.dto.response.EmployeeResponse;
-import com.project.dto.response.RoleResponse;
-import com.project.dto.response.StudentResponse;
+import com.project.dto.EmployeeDTO;
+import com.project.dto.RoleDTO;
+import com.project.dto.StudentDTO;
 import com.project.model.entity.Role;
+import com.project.model.entity.Student;
 import com.project.model.mapstruct.RoleMapstruct;
 import com.project.repository.RoleRepository;
 import com.project.service.EmployeeService;
@@ -39,12 +40,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public RoleResponse add(RoleRequest request) {
+    public RoleDTO add(RoleRequest request) {
         return RoleMapstruct.toDTO(roleRepository.save(RoleMapstruct.toEntity(request)));
     }
 
     @Override
-    public List<RoleResponse> findAll() {
+    public List<RoleDTO> findAll() {
         List<Role> roles = roleRepository.findAll();
         if(CollectionUtils.isEmpty(roles))
             return ListUtil.emptyList();
@@ -52,18 +53,18 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public RoleResponse detail(Long id) {
+    public RoleDTO detail(Long id) {
         Role role = roleRepository.findById(id).orElse(null);
         if (role == null) {
             return null;
         }
 
-        RoleResponse dto = RoleMapstruct.toDTO(role);
+        RoleDTO dto = RoleMapstruct.toDTO(role);
         if (Constant.STUDENT_ROLE.equalsIgnoreCase(dto.getCode())) {
-            List<StudentResponse> students = studentService.findAll();
+            List<StudentDTO> students = studentService.findAll();
             dto.setStudents(students);
         } else {
-            List<EmployeeResponse> employees = employeeService.findEmployeesByRoleId(dto.getId());
+            List<EmployeeDTO> employees = employeeService.findEmployeesByRoleId(dto.getId());
             dto.setEmployees(employees);
         }
         return dto;

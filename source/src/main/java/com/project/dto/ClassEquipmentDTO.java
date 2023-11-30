@@ -1,4 +1,4 @@
-package com.project.dto.response;
+package com.project.dto;
 
 import lombok.*;
 
@@ -10,11 +10,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClassEquipmentResponse {
+public class ClassEquipmentDTO {
     private Long id;
     private String name;
     private int total;
     private int remain;
     private Timestamp createdDate;
-    private List<BorrowEquipmentResponse> borrowEquipments;
+    private List<BorrowEquipmentDTO> borrowEquipments;
 }

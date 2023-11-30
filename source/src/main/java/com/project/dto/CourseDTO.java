@@ -1,4 +1,4 @@
-package com.project.dto.response;
+package com.project.dto;
 
 import lombok.*;
 
@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CourseResponse {
+public class CourseDTO {
     private String code;
     private String name;
     private String fromTime;
@@ -19,6 +19,6 @@ public class CourseResponse {
     private int cycle;
     private Double fee;
     private Timestamp createdDate;
-    private List<ClassAllocationResponse> classAllocations;
-    private SubjectResponse subject;
+    private List<ClassAllocationDTO> classAllocations;
+    private SubjectDTO subject;
 }

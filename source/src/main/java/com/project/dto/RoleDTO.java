@@ -1,4 +1,4 @@
-package com.project.dto.response;
+package com.project.dto;
 
 import lombok.*;
 
@@ -9,11 +9,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoleResponse {
+public class RoleDTO {
     private Long id;
     private String code;
     private String type;
     private String name;
-    private List<StudentResponse> students;
-    private List<EmployeeResponse> employees;
+    private List<StudentDTO> students;
+    private List<EmployeeDTO> employees;
 }

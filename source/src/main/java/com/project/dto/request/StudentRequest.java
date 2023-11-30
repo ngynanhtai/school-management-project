@@ -1,15 +1,10 @@
 package com.project.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.project.dto.response.ClassmateResponse;
-import com.project.dto.response.InvoiceResponse;
-import com.project.dto.response.RoleResponse;
-import com.project.dto.response.ScoreResponse;
 import com.project.utils.DateUtil;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter

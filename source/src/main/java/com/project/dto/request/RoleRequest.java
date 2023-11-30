@@ -1,10 +1,6 @@
 package com.project.dto.request;
 
-import com.project.dto.response.EmployeeResponse;
-import com.project.dto.response.StudentResponse;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter

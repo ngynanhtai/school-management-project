@@ -1,4 +1,4 @@
-package com.project.dto.response;
+package com.project.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.utils.DateUtil;
@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EmployeeResponse {
+public class EmployeeDTO {
     private Long id;
     private String code;
     private String phoneNumber;
@@ -30,12 +30,12 @@ public class EmployeeResponse {
     private String profession;
     private String maritalStatus;
     private Double salary;
-    private RoleResponse role;
-    private List<BorrowEquipmentResponse> borrowEquipments;
-    private List<ClassroomResponse> classrooms;
-    private List<MealResponse> createdMeals;
-    private List<MealResponse> assignedToMeals;
-    private List<ExpenseResponse> createdExpenses;
-    private List<InvoiceResponse> collectorInvoices;
-    private List<ScoreResponse> scores;
+    private RoleDTO role;
+    private List<BorrowEquipmentDTO> borrowEquipments;
+    private List<ClassroomDTO> classrooms;
+    private List<MealDTO> createdMeals;
+    private List<MealDTO> assignedToMeals;
+    private List<ExpenseDTO> createdExpenses;
+    private List<InvoiceDTO> collectorInvoices;
+    private List<ScoreDTO> scores;
 }

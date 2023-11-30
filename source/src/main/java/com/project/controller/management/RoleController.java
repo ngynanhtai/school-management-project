@@ -3,7 +3,6 @@ package com.project.controller.management;
 import com.project.dto.common.ResponseDTO;
 import com.project.dto.request.RoleRequest;
 import com.project.enums.MessageCodeEnum;
-import com.project.dto.response.RoleResponse;
 import com.project.service.RoleService;
 import com.project.utils.ExceptionUtil;
 import com.project.utils.ResponseUtil;

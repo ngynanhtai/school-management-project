@@ -1,8 +1,8 @@
 package com.project.service;
 
 import com.project.dto.request.ClassroomRequest;
-import com.project.dto.response.ClassroomResponse;
+import com.project.dto.ClassroomDTO;
 
 public interface ClassroomService {
-    ClassroomResponse add(ClassroomRequest request);
+    ClassroomDTO add(ClassroomRequest request);
 }

@@ -1,4 +1,4 @@
-package com.project.dto.response;
+package com.project.dto;
 
 import lombok.*;
 
@@ -9,12 +9,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DocumentTypeResponse {
+public class DocumentTypeDTO {
     private Long id;
     private String code;
     private String name;
     private String mediaType;
     private String fileExtension;
     private boolean isMultiple;
-    private List<DocumentResponse> documents;
+    private List<DocumentDTO> documents;
 }

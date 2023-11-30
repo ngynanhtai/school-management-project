@@ -2,8 +2,8 @@ package com.project.service.impl;
 
 import com.project.constant.Constant;
 import com.project.dto.request.EmployeeRequest;
-import com.project.dto.response.EmployeeResponse;
-import com.project.dto.response.RoleResponse;
+import com.project.dto.EmployeeDTO;
+import com.project.dto.RoleDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Employee;
 import com.project.model.entity.Role;
@@ -38,7 +38,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private RoleService roleService;
 
     @Override
-    public List<EmployeeResponse> findAll() {
+    public List<EmployeeDTO> findAll() {
         List<Employee> employees = employeeRepository.findAll();
         if (CollectionUtils.isEmpty(employees)) {
             return ListUtil.emptyList();
@@ -47,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeResponse> findEmployeesByRoleId(Long roleId) {
+    public List<EmployeeDTO> findEmployeesByRoleId(Long roleId) {
         List<Employee> employees = employeeRepository.findEmployeesByRoleId(roleId).orElse(null);
         if (employees == null) {
             return ListUtil.emptyList();
@@ -57,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public EmployeeResponse add(EmployeeRequest request) {
+    public EmployeeDTO add(EmployeeRequest request) {
         Employee employee = EmployeeMapstruct.toEntity(request);
 
         if (ObjectUtils.isEmpty(request.getRoleId())) {
@@ -78,8 +78,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setRole(role);
         employee.setCode(CommonMethods.randomCode(role.getType()));
 
-        RoleResponse roleDTO = RoleMapstruct.toDTO(role);
-        EmployeeResponse result = EmployeeMapstruct.toDTO(employeeRepository.save(employee));
+        RoleDTO roleDTO = RoleMapstruct.toDTO(role);
+        EmployeeDTO result = EmployeeMapstruct.toDTO(employeeRepository.save(employee));
         result.setRole(roleDTO);
         return result;
     }

@@ -2,8 +2,8 @@ package com.project.service.impl;
 
 import com.project.constant.Constant;
 import com.project.dto.request.ClassroomRequest;
-import com.project.dto.response.ClassroomResponse;
-import com.project.dto.response.EmployeeResponse;
+import com.project.dto.ClassroomDTO;
+import com.project.dto.EmployeeDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Classroom;
 import com.project.model.entity.Employee;
@@ -34,7 +34,7 @@ public class ClassroomServiceImpl implements ClassroomService {
 
     @Override
     @Transactional
-    public ClassroomResponse add(ClassroomRequest request) {
+    public ClassroomDTO add(ClassroomRequest request) {
         Classroom classroom = ClassroomMapstruct.toEntity(request);
 
         if (ObjectUtils.isEmpty(request.getTeacherId())) {
@@ -55,8 +55,8 @@ public class ClassroomServiceImpl implements ClassroomService {
         classroom.setTeacher(employee);
         classroom.setCode(CommonMethods.randomCode(classroom.getGrade()));
 
-        EmployeeResponse employeeDTO = EmployeeMapstruct.toDTO(employee);
-        ClassroomResponse result = ClassroomMapstruct.toDTO(classroomRepository.save(classroom));
+        EmployeeDTO employeeDTO = EmployeeMapstruct.toDTO(employee);
+        ClassroomDTO result = ClassroomMapstruct.toDTO(classroomRepository.save(classroom));
         result.setTeacher(employeeDTO);
         return result;
     }

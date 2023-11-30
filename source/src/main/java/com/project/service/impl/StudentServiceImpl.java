@@ -2,7 +2,7 @@ package com.project.service.impl;
 
 import com.project.constant.Constant;
 import com.project.dto.request.StudentRequest;
-import com.project.dto.response.StudentResponse;
+import com.project.dto.StudentDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Role;
 import com.project.model.entity.Student;
@@ -36,7 +36,7 @@ public class StudentServiceImpl implements StudentService {
     private RoleService roleService;
 
     @Override
-    public List<StudentResponse> findAll() {
+    public List<StudentDTO> findAll() {
         List<Student> students = studentRepository.findAll();
         if(CollectionUtils.isEmpty(students))
             return ListUtil.emptyList();
@@ -45,7 +45,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     @Transactional
-    public StudentResponse add(StudentRequest request) {
+    public StudentDTO add(StudentRequest request) {
         Student student = StudentMapstruct.toEntity(request);
 
         Role role = roleService.findEntityByType(Constant.STUDENT_ROLE);
@@ -56,7 +56,7 @@ public class StudentServiceImpl implements StudentService {
         student.setRole(role);
         student.setCode(CommonMethods.randomCode(role.getType()));
 
-        StudentResponse result = StudentMapstruct.toDTO(studentRepository.save(student));
+        StudentDTO result = StudentMapstruct.toDTO(studentRepository.save(student));
         result.setRole(RoleMapstruct.toDTO(role));
         return result;
     }

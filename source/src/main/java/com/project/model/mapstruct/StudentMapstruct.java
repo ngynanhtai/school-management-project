@@ -2,7 +2,7 @@ package com.project.model.mapstruct;
 
 import com.project.dto.request.StudentRequest;
 import com.project.enums.MessageCodeEnum;
-import com.project.dto.response.StudentResponse;
+import com.project.dto.StudentDTO;
 import com.project.model.entity.Student;
 import com.project.utils.ExceptionUtil;
 import org.apache.commons.lang3.ObjectUtils;
@@ -35,11 +35,11 @@ public class StudentMapstruct {
                 .build();
     }
     
-    public static StudentResponse toDTO(Student object) {
+    public static StudentDTO toDTO(Student object) {
         if (ObjectUtils.isEmpty(object)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.CONVERT_DATA_ERROR);
         }
-        return StudentResponse
+        return StudentDTO
                 .builder()
                 .code(object.getCode())
                 .phoneNumber(object.getPhoneNumber())

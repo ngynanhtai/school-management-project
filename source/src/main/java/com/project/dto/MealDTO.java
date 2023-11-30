@@ -1,4 +1,4 @@
-package com.project.dto.response;
+package com.project.dto;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MealResponse {
+public class MealDTO {
     private Long id;
     private String mainDish;
     private String sideDish;
@@ -17,6 +17,6 @@ public class MealResponse {
     private String period;
     private Timestamp implementDate;
     private Timestamp createdDate;
-    private EmployeeResponse createdBy;
-    private EmployeeResponse assignedTo;
+    private EmployeeDTO createdBy;
+    private EmployeeDTO assignedTo;
 }
