@@ -39,4 +39,9 @@ public class ClassroomController {
 
         return ResponseUtil.buildSuccess(classroomService.assignStudents(classroomId, studentIds));
     }
+
+    @GetMapping("/classroom/{id}/students")
+    public ResponseEntity<ResponseDTO> findStudentsByClassroomId(@PathVariable("id") Long classroomId) {
+        return ResponseUtil.buildSuccess(classroomService.findStudentsByClassroomId(classroomId));
+    }
 }

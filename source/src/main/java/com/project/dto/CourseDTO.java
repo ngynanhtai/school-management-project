@@ -19,6 +19,6 @@ public class CourseDTO {
     private int cycle;
     private Double fee;
     private Timestamp createdDate;
-    private List<ClassAllocationDTO> classAllocations;
+    private List<ClassCourseDTO> classCourses;
     private SubjectDTO subject;
 }

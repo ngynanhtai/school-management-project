@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClassmateDTO {
+public class ClassStudentDTO {
     private Long id;
     private ClassroomDTO classroom;
     private StudentDTO student;

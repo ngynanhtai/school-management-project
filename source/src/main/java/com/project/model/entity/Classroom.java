@@ -41,13 +41,13 @@ public class Classroom {
     private Employee teacher;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
-    private Set<Classmate> classmates;
+    private Set<ClassStudent> classStudents;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
     private Set<BorrowEquipment> borrowEquipments;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
-    private Set<ClassAllocation> classAllocations;
+    private Set<ClassCourse> classCourses;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "score")
     private Set<Score> scores;

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
     @Cacheable
-    @Query(value = "SELECT * FROM role WHERE type = 'STUDENT'")
+    @Query(nativeQuery = true, value = "SELECT * FROM role WHERE type = 'STUDENT'")
     Role findStudentType();
 }

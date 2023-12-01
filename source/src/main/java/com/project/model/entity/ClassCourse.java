@@ -7,13 +7,13 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "class_allocation")
+@Table(name = "class_course")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClassAllocation {
+public class ClassCourse {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;

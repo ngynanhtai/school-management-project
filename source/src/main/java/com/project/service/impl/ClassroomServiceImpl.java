@@ -4,7 +4,7 @@ import com.project.constant.Constant;
 import com.project.dto.ClassroomDTO;
 import com.project.dto.StudentDTO;
 import com.project.enums.MessageCodeEnum;
-import com.project.model.entity.Classmate;
+import com.project.model.entity.ClassStudent;
 import com.project.model.entity.Classroom;
 import com.project.model.entity.Employee;
 import com.project.model.entity.Student;
@@ -25,7 +25,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -86,16 +85,33 @@ public class ClassroomServiceImpl implements ClassroomService {
             ExceptionUtil.throwCustomException(HttpStatus.SC_BAD_REQUEST, "Assign Students to Classroom Error. Cannot find any Student with IDs: ".concat(studentIds.toString()));
         }
 
-        Set<Classmate> classmates = new HashSet<>();
+        Set<ClassStudent> classStudents = classroom.getClassStudents();
         for (Student student : students) {
-            Classmate classmate = new Classmate();
-            classmate.setClassroom(classroom);
-            classmate.setStudent(student);
+            if (classStudents.stream().anyMatch(item -> item.getStudent() == student)) {
+                continue;
+            }
+            ClassStudent classStudent = new ClassStudent();
+            classStudent.setClassroom(classroom);
+            classStudent.setStudent(student);
 
-            classmates.add(classmate);
+            classStudents.add(classStudent);
         }
 
-        classroom.setClassmates(classmates);
+        classroom.setClassStudents(classStudents);
+
+        return students.stream().map(StudentMapstruct::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StudentDTO> findStudentsByClassroomId(Long classroomId) {
+        Classroom classroom = classroomRepository.findById(classroomId).orElse(null);
+        if (classroom == null) {
+            log.info("Find Students By Classroom ID Error. Cannot find Classroom with ID: {}", classroomId);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+        }
+
+        Set<ClassStudent> classStudents = classroom.getClassStudents();
+        List<Student> students = classStudents.stream().map(ClassStudent::getStudent).collect(Collectors.toList());
 
         return students.stream().map(StudentMapstruct::toDTO).collect(Collectors.toList());
     }

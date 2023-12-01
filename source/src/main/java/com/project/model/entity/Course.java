@@ -45,7 +45,7 @@ public class Course {
     private Timestamp createdDate;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "course")
-    private Set<ClassAllocation> classAllocations;
+    private Set<ClassCourse> classCourses;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
