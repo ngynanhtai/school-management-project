@@ -44,3 +44,30 @@
   "type": "MAIN",
   "year": "2023"
 }
+
+//Create Subject
+{
+  "code": "MATH",
+  "name": "Toán",
+  "type": "MAIN"
+}
+
+//Create Course
+{
+  "cycle": 60,
+  "fee": 2000000,
+  "name": "Toán 1 - Học kỳ 1",
+  "subjectId": 1
+}
+
+//Assign CourseTime
+[
+  {
+    "shift": "SHIFT01",
+    "weekDay": "TUESDAY"
+  },
+  {
+    "shift": "SHIFT02",
+    "weekDay": "THURSDAY"
+  }
+]

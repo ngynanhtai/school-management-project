@@ -39,10 +39,11 @@ public class Course {
     private Timestamp createdDate;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "course")
-    private Set<ClassroomCourse> classroomCourses;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "course")
     private Set<CourseTime> courseTimes;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "classroom_id", referencedColumnName = "id")
+    private Classroom classroom;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
