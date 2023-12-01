@@ -25,14 +25,11 @@ public class Course {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "from_time")
-    private String fromTime; //9:00, 10:00, 10:30 (Constant)
+    @Column(name = "shift")
+    private String shift;
 
-    @Column(name = "to_time")
-    private String toTime;
-
-    @Column(name = "period")
-    private String period;
+    @Column(name = "week_days")
+    private String weekDays;
 
     @Column(name = "cycle")
     private int cycle; //days
@@ -45,7 +42,7 @@ public class Course {
     private Timestamp createdDate;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "course")
-    private Set<ClassCourse> classCourses;
+    private Set<ClassroomCourse> classroomCourses;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")

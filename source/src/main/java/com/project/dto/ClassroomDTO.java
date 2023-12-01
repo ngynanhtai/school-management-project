@@ -17,5 +17,5 @@ public class ClassroomDTO {
     private int total;
     private String type;
     private String year;
-    private Long teacherId;
+    private Long homeTeacherId;
 }

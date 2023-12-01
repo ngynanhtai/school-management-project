@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClassCourseDTO {
+public class ClassroomCourseDTO {
     private Long id;
     private ClassroomDTO classroom;
     private CourseDTO course;

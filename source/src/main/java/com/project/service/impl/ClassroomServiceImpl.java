@@ -4,7 +4,7 @@ import com.project.constant.Constant;
 import com.project.dto.ClassroomDTO;
 import com.project.dto.StudentDTO;
 import com.project.enums.MessageCodeEnum;
-import com.project.model.entity.ClassStudent;
+import com.project.model.entity.ClassroomStudent;
 import com.project.model.entity.Classroom;
 import com.project.model.entity.Employee;
 import com.project.model.entity.Student;
@@ -49,22 +49,22 @@ public class ClassroomServiceImpl implements ClassroomService {
     public ClassroomDTO add(ClassroomDTO dto) {
         Classroom classroom = ClassroomMapstruct.toEntity(dto);
 
-        if (ObjectUtils.isEmpty(dto.getTeacherId())) {
+        if (ObjectUtils.isEmpty(dto.getHomeTeacherId())) {
             log.error("Create Classroom Error. Classroom must not have a Teacher");
             ExceptionUtil.throwCustomException(HttpStatus.SC_BAD_REQUEST, "Create Classroom Error. Classroom must not have a Teacher");
         }
 
-        Employee employee = employeeRepository.findById(dto.getTeacherId()).orElse(null);
+        Employee employee = employeeRepository.findById(dto.getHomeTeacherId()).orElse(null);
         if (employee == null) {
-            log.error("Create Classroom Error. Cannot find Teacher with ID: {}", dto.getTeacherId());
+            log.error("Create Classroom Error. Cannot find Teacher with ID: {}", dto.getHomeTeacherId());
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
         }
 
         if (!Constant.TEACHER_ROLE.equalsIgnoreCase(employee.getRole().getType())) {
-            log.error("Create Classroom Error. Employee must be Teacher: {}", dto.getTeacherId());
-            ExceptionUtil.throwCustomException(HttpStatus.SC_BAD_REQUEST, "Create Classroom Error. Employee must be Teacher: ".concat(dto.getTeacherId().toString()));
+            log.error("Create Classroom Error. Employee must be Teacher: {}", dto.getHomeTeacherId());
+            ExceptionUtil.throwCustomException(HttpStatus.SC_BAD_REQUEST, "Create Classroom Error. Employee must be Teacher: ".concat(dto.getHomeTeacherId().toString()));
         }
-        classroom.setTeacher(employee);
+        classroom.setHomeTeacher(employee);
         classroom.setCode(CommonMethods.randomCode(classroom.getGrade()));
 
         return ClassroomMapstruct.toDTO(classroomRepository.save(classroom));
@@ -85,19 +85,19 @@ public class ClassroomServiceImpl implements ClassroomService {
             ExceptionUtil.throwCustomException(HttpStatus.SC_BAD_REQUEST, "Assign Students to Classroom Error. Cannot find any Student with IDs: ".concat(studentIds.toString()));
         }
 
-        Set<ClassStudent> classStudents = classroom.getClassStudents();
+        Set<ClassroomStudent> classroomStudents = classroom.getClassroomStudents();
         for (Student student : students) {
-            if (classStudents.stream().anyMatch(item -> item.getStudent() == student)) {
+            if (classroomStudents.stream().anyMatch(item -> item.getStudent() == student)) {
                 continue;
             }
-            ClassStudent classStudent = new ClassStudent();
-            classStudent.setClassroom(classroom);
-            classStudent.setStudent(student);
+            ClassroomStudent classroomStudent = new ClassroomStudent();
+            classroomStudent.setClassroom(classroom);
+            classroomStudent.setStudent(student);
 
-            classStudents.add(classStudent);
+            classroomStudents.add(classroomStudent);
         }
 
-        classroom.setClassStudents(classStudents);
+        classroom.setClassroomStudents(classroomStudents);
 
         return students.stream().map(StudentMapstruct::toDTO).collect(Collectors.toList());
     }
@@ -110,8 +110,8 @@ public class ClassroomServiceImpl implements ClassroomService {
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
         }
 
-        Set<ClassStudent> classStudents = classroom.getClassStudents();
-        List<Student> students = classStudents.stream().map(ClassStudent::getStudent).collect(Collectors.toList());
+        Set<ClassroomStudent> classroomStudents = classroom.getClassroomStudents();
+        List<Student> students = classroomStudents.stream().map(ClassroomStudent::getStudent).collect(Collectors.toList());
 
         return students.stream().map(StudentMapstruct::toDTO).collect(Collectors.toList());
     }

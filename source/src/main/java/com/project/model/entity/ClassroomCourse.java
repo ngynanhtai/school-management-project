@@ -1,19 +1,21 @@
 package com.project.model.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "class_student")
+@Table(name = "classroom_course")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ClassStudent {
+public class ClassroomCourse {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
@@ -21,6 +23,10 @@ public class ClassStudent {
     private Classroom classroom;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
-    private Student student;
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private Course course;
+
+    @Column(name = "created_date", updatable = false)
+    @CreationTimestamp
+    private Timestamp createdDate;
 }

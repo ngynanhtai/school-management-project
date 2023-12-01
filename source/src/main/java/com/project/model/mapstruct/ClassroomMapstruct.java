@@ -38,7 +38,7 @@ public class ClassroomMapstruct {
                 .total(object.getTotal())
                 .type(object.getType())
                 .year(object.getYear())
-                .teacherId(object.getId())
+                .homeTeacherId(object.getId())
                 .build();
     }
 }

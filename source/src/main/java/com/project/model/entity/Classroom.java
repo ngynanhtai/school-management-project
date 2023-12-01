@@ -37,17 +37,17 @@ public class Classroom {
     private String year;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
-    private Employee teacher;
+    @JoinColumn(name = "home_teacher_id", referencedColumnName = "id")
+    private Employee homeTeacher;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
-    private Set<ClassStudent> classStudents;
+    private Set<ClassroomStudent> classroomStudents;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
     private Set<BorrowEquipment> borrowEquipments;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
-    private Set<ClassCourse> classCourses;
+    private Set<ClassroomCourse> classroomCourses;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "score")
     private Set<Score> scores;

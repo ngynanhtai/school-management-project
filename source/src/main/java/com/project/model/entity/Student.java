@@ -80,7 +80,7 @@ public class Student {
     private Role role;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "student")
-    private Set<ClassStudent> classStudents;
+    private Set<ClassroomStudent> classroomStudents;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "payer")
     private Set<Invoice> payerInvoices;
