@@ -41,7 +41,7 @@ public class ClassroomController {
     }
 
     @GetMapping("/classroom/{id}/students")
-    public ResponseEntity<ResponseDTO> findStudentsByClassroomId(@PathVariable("id") Long classroomId) {
-        return ResponseUtil.buildSuccess(classroomService.findStudentsByClassroomId(classroomId));
+    public ResponseEntity<ResponseDTO> findStudentsByClassroomId(@PathVariable("id") Long id) {
+        return ResponseUtil.buildSuccess(classroomService.findStudentsByClassroomId(id));
     }
 }

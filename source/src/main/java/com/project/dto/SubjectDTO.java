@@ -14,7 +14,5 @@ public class SubjectDTO {
     private String code;
     private String name;
     private String type;
-    private int totalOpen;
-    private List<CourseDTO> courses;
-    private List<ScoreDTO> scores;
+    private long totalOpen;
 }

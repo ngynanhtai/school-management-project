@@ -11,14 +11,14 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CourseDTO {
+    private Long id;
     private String code;
     private String name;
-    private String fromTime;
-    private String toTime;
-    private String period;
     private int cycle;
     private Double fee;
     private Timestamp createdDate;
-    private List<ClassroomCourseDTO> classroomCourses;
-    private SubjectDTO subject;
+    private Long subjectId;
+    private String subjectCode;
+    private String subjectName;
+    private List<CourseTimeDTO> courseTimes;
 }

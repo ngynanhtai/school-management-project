@@ -25,17 +25,14 @@ public class Course {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "shift")
-    private String shift;
-
-    @Column(name = "week_days")
-    private String weekDays;
-
     @Column(name = "cycle")
     private int cycle; //days
 
     @Column(name = "fee")
     private Double fee;
+
+    @Column(name = "active_status")
+    private boolean activeStatus = false;
 
     @Column(name = "created_date", updatable = false)
     @CreationTimestamp
@@ -43,6 +40,9 @@ public class Course {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "course")
     private Set<ClassroomCourse> classroomCourses;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "course")
+    private Set<CourseTime> courseTimes;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "subject_id", referencedColumnName = "id")

@@ -79,12 +79,12 @@ public class Student {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "student")
-    private Set<ClassroomStudent> classroomStudents;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "payer")
-    private Set<Invoice> payerInvoices;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "student")
-    private Set<Score> scores;
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "student")
+//    private Set<ClassroomStudent> classroomStudents;
+//
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "payer")
+//    private Set<Invoice> payerInvoices;
+//
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "student")
+//    private Set<Score> scores;
 }

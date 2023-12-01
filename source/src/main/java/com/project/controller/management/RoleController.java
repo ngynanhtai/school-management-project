@@ -32,8 +32,8 @@ public class RoleController {
         return ResponseUtil.buildSuccess(roleService.findAll());
     }
 
-    @GetMapping("/role/{id}")
-    public ResponseEntity<ResponseDTO> detail(@PathVariable("id") Long id) {
-        return ResponseUtil.buildSuccess(roleService.detail(id));
+    @GetMapping("/role/{id}/users")
+    public ResponseEntity<ResponseDTO> findEmployeeByRoleId(@PathVariable("id") Long id) {
+        return ResponseUtil.buildSuccess(roleService.findEmployeeByRoleId(id));
     }
 }

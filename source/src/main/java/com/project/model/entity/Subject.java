@@ -27,9 +27,6 @@ public class Subject {
     @Column(name = "type")
     private String type;
 
-    @Column(name = "total_open")
-    private int totalOpen = 0;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "subject")
     private Set<Course> courses;
 

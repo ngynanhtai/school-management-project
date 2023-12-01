@@ -103,10 +103,10 @@ public class ClassroomServiceImpl implements ClassroomService {
     }
 
     @Override
-    public List<StudentDTO> findStudentsByClassroomId(Long classroomId) {
-        Classroom classroom = classroomRepository.findById(classroomId).orElse(null);
+    public List<StudentDTO> findStudentsByClassroomId(Long id) {
+        Classroom classroom = classroomRepository.findById(id).orElse(null);
         if (classroom == null) {
-            log.info("Find Students By Classroom ID Error. Cannot find Classroom with ID: {}", classroomId);
+            log.info("Find Students By Classroom ID Error. Cannot find Classroom with ID: {}", id);
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
         }
 
