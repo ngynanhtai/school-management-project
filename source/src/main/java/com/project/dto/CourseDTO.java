@@ -19,6 +19,7 @@ public class CourseDTO {
     private String name;
     private int cycle;
     private Double fee;
+    @JsonFormat(pattern = DateUtil.DATE_HYPHEN)
     private Timestamp createdDate;
     @JsonFormat(pattern = DateUtil.DATE_HYPHEN)
     private Date startDate;

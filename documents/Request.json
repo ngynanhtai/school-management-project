@@ -54,10 +54,23 @@
 
 //Create Course
 {
-  "cycle": 60,
+  "courseTimes": [
+    {
+      "shift": "SHIFT01",
+      "weekDay": "TUESDAY"
+    },
+    {
+      "shift": "SHIFT02",
+      "weekDay": "THURSDAY"
+    }
+  ],
+  "cycle": 30,
   "fee": 2000000,
   "name": "Toán 1 - Học kỳ 1",
-  "subjectId": 1
+  "startDate": "04-12-2023",
+  "classroomId": 1,
+  "subjectId": 1,
+  "teacherId": 1
 }
 
 //Assign CourseTime

@@ -1,5 +1,7 @@
 package com.project.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.project.utils.DateUtil;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -15,6 +17,7 @@ public class ClassEquipmentDTO {
     private String name;
     private int total;
     private int remain;
+    @JsonFormat(pattern = DateUtil.DATE_HYPHEN)
     private Timestamp createdDate;
     private List<BorrowEquipmentDTO> borrowEquipments;
 }

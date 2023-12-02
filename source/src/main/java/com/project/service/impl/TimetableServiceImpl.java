@@ -1,19 +1,28 @@
 package com.project.service.impl;
 
+import com.project.dto.TimetableDTO;
 import com.project.enums.DateEnum;
+import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Course;
 import com.project.model.entity.CourseTime;
+import com.project.model.entity.Employee;
 import com.project.model.entity.Timetable;
+import com.project.model.mapstruct.TimetableMapstruct;
 import com.project.repository.TimetableRepository;
 import com.project.service.TimetableService;
 import com.project.utils.DateUtil;
+import com.project.utils.ExceptionUtil;
+import com.project.utils.ListUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -35,7 +44,9 @@ public class TimetableServiceImpl implements TimetableService {
         LocalDate endDate = startDate.plusDays(cycle);
 
         String classroomName = course.getClassroom().getName();
-        Long teacherId = course.getTeacher().getId();
+        Employee teacher = course.getTeacher();
+        Long teacherId = teacher.getId();
+        String teacherName = teacher.getFullName();
 
         for (CourseTime courseTime : courseTimes) {
             String weekDay = courseTime.getWeekDay();
@@ -45,6 +56,7 @@ public class TimetableServiceImpl implements TimetableService {
                     timetable.setShift(courseTime.getShift());
                     timetable.setClassroomName(classroomName);
                     timetable.setTeacherId(teacherId);
+                    timetable.setTeacherName(teacherName);
                     timetable.setImplementDate(DateUtil.convertLocalDatetoDate(date));
 
                     timetableRepository.save(timetable);
@@ -52,7 +64,16 @@ public class TimetableServiceImpl implements TimetableService {
                 }
             }
         }
-
         log.info("End generateTimetable for Course: {}, TOTAL: {}", course.getCode(), count);
+    }
+
+    @Override
+    public List<TimetableDTO> findTeacherTimetable(Long teacherId) {
+        List<Timetable> timetables = timetableRepository.findByTeacherId(teacherId).orElse(ListUtil.emptyList());
+        if (CollectionUtils.isEmpty(timetables)) {
+            log.info("Cannot find Timetable with TeacherID: {}", teacherId);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+        }
+        return timetables.stream().map(TimetableMapstruct::toDTO).collect(Collectors.toList());
     }
 }

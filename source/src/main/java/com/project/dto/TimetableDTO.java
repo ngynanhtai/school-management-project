@@ -1,5 +1,7 @@
-package com.project.model.entity;
+package com.project.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.project.utils.DateUtil;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -7,34 +9,19 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
 
-@Entity
-@Table(name = "timetable")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Timetable {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+public class TimetableDTO {
     private Long id;
-
-    @Column(name = "teacher_id")
     private Long teacherId;
-
-    @Column(name = "teacher_name")
     private String teacherName;
-
-    @Column(name = "classroom_name")
     private String classroomName;
-
-    @Column(name = "shift")
     private String shift;
-
-    @Column(name = "implement_date")
+    @JsonFormat(pattern = DateUtil.DATE_HYPHEN)
     private Date implementDate;
-
-    @Column(name = "created_date", updatable = false)
-    @CreationTimestamp
+    @JsonFormat(pattern = DateUtil.DATE_HYPHEN)
     private Timestamp createdDate;
 }

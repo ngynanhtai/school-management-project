@@ -1,4 +1,4 @@
-package com.project.controller;
+package com.project.controller.management;
 
 import com.project.dto.StudentDTO;
 import com.project.dto.common.ResponseDTO;
@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/system")
 public class StudentController {
     @Autowired
     private StudentService studentService;
