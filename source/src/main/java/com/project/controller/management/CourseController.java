@@ -36,13 +36,13 @@ public class CourseController {
         return ResponseUtil.buildSuccess(courseService.findById(id));
     }
 
-    @PutMapping("/course/{id}/assign-time")
-    public ResponseEntity<ResponseDTO> assignTimeForCourse(@PathVariable("id") Long id,
-                                                           @RequestBody List<CourseTimeDTO> courseTimeDTOList) {
-        if (CollectionUtils.isEmpty(courseTimeDTOList)) {
-            ExceptionUtil.throwCustomException(MessageCodeEnum.VALIDATION_REQUEST_NULL);
-        }
-
-        return ResponseUtil.buildSuccess(courseService.assignTimeForCourse(id, courseTimeDTOList));
-    }
+//    @PutMapping("/course/{id}/assign-time")
+//    public ResponseEntity<ResponseDTO> assignTimeForCourse(@PathVariable("id") Long id,
+//                                                           @RequestBody List<CourseTimeDTO> courseTimeDTOList) {
+//        if (CollectionUtils.isEmpty(courseTimeDTOList)) {
+//            ExceptionUtil.throwCustomException(MessageCodeEnum.VALIDATION_REQUEST_NULL);
+//        }
+//
+//        return ResponseUtil.buildSuccess(courseService.assignTimeForCourse(id, courseTimeDTOList));
+//    }
 }

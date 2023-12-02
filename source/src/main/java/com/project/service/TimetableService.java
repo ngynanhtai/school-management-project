@@ -1,7 +1,7 @@
 package com.project.service;
 
-import com.project.dto.CourseDTO;
+import com.project.model.entity.Course;
 
 public interface TimetableService {
-    void generateTimetable(CourseDTO dto);
+    void generateTimetable(Course course);
 }

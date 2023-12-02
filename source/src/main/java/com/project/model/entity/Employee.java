@@ -70,24 +70,27 @@ public class Employee {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "homeTeacher")
-//    private Set<Classroom> classrooms;
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "borrower")
-//    private Set<BorrowEquipment> borrowEquipments;
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "createdBy")
-//    private Set<Meal> createdMeals;
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "assignedTo")
-//    private Set<Meal> assignedToMeals;
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "createdBy")
-//    private Set<Expense> createdExpenses;
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "collector")
-//    private Set<Invoice> collectorInvoices;
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "createdBy")
-//    private Set<Score> scores;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "homeTeacher")
+    private Set<Classroom> classrooms;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "borrower")
+    private Set<BorrowEquipment> borrowEquipments;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "createdBy")
+    private Set<Meal> createdMeals;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "assignedTo")
+    private Set<Meal> assignedToMeals;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "createdBy")
+    private Set<Expense> createdExpenses;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "collector")
+    private Set<Invoice> collectorInvoices;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "createdBy")
+    private Set<Score> scores;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "teacher")
+    private Set<Course> courses;
 }

@@ -1,16 +1,13 @@
 package com.project.service.impl;
 
 import com.project.dto.CourseDTO;
-import com.project.dto.CourseTimeDTO;
 import com.project.enums.MessageCodeEnum;
-import com.project.model.entity.Course;
-import com.project.model.entity.CourseTime;
-import com.project.model.entity.Subject;
+import com.project.model.entity.*;
 import com.project.model.mapstruct.CourseMapstruct;
 import com.project.model.mapstruct.CourseTimeMapstruct;
-import com.project.repository.CourseRepository;
-import com.project.repository.SubjectRepository;
+import com.project.repository.*;
 import com.project.service.CourseService;
+import com.project.service.TimetableService;
 import com.project.utils.CommonMethods;
 import com.project.utils.ExceptionUtil;
 import com.project.utils.ListUtil;
@@ -23,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,6 +35,22 @@ public class CourseServiceImpl implements CourseService {
     @Autowired
     @Lazy
     private SubjectRepository subjectRepository;
+
+    @Autowired
+    @Lazy
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    @Lazy
+    private ClassroomRepository classroomRepository;
+
+    @Autowired
+    @Lazy
+    private CourseTimeRepository courseTimeRepository;
+
+    @Autowired
+    @Lazy
+    private TimetableService timetableService;
 
     @Override
     @Transactional
@@ -54,10 +68,38 @@ public class CourseServiceImpl implements CourseService {
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
         }
 
+        Employee teacher = employeeRepository.findById(dto.getTeacherId()).orElse(null);
+        if (teacher == null) {
+            log.error("Create Course Error. Teacher not found with ID: {}", dto.getTeacherId());
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+        }
+
+        Classroom classroom = classroomRepository.findById(dto.getClassroomId()).orElse(null);
+        if (classroom == null) {
+            log.error("Create Course Error. Classroom not found with ID: {}", dto.getTeacherId());
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+        }
+
         course.setSubject(subject);
+        course.setTeacher(teacher);
+        course.setClassroom(classroom);
         course.setCode(CommonMethods.randomCode(subject.getCode()));
 
-        return CourseMapstruct.toDTO(courseRepository.save(course));
+        course = courseRepository.save(course);
+
+        List<CourseTime> courseTimes = dto.getCourseTimes().stream().map(CourseTimeMapstruct::toEntity).collect(Collectors.toList());
+        for (CourseTime courseTime : courseTimes) {
+            courseTime.setCourse(course);
+        }
+        courseTimeRepository.saveAll(courseTimes);
+
+        course.setCourseTimes(new HashSet<>(courseTimes));
+
+        if (!ObjectUtils.isEmpty(course)) {
+            timetableService.generateTimetable(course);
+        }
+
+        return CourseMapstruct.toDTO(course);
     }
 
     @Override
@@ -72,30 +114,30 @@ public class CourseServiceImpl implements CourseService {
         return result;
     }
 
-    @Override
-    @Transactional
-    public CourseDTO assignTimeForCourse(Long id, List<CourseTimeDTO> courseTimeDTOList) {
-        Course course = courseRepository.findById(id).orElse(null);
-        if (course == null) {
-            log.error("Assign Time for Course Error. Cannot find Course with ID: {}", id);
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
-        }
-
-        Set<CourseTime> courseTimes = course.getCourseTimes();
-        for (CourseTimeDTO dto : courseTimeDTOList) {
-            if (courseTimes.stream().anyMatch(item ->
-                    item.getWeekDay().equalsIgnoreCase(dto.getWeekDay())
-                            && item.getShift().equalsIgnoreCase(dto.getShift()))) {
-                continue;
-            }
-
-            CourseTime courseTime = CourseTimeMapstruct.toEntity(dto);
-            courseTime.setCourse(course);
-            courseTimes.add(courseTime);
-        }
-        course.setCourseTimes(courseTimes);
-        CourseDTO result = CourseMapstruct.toDTO(course);
-        result.setCourseTimes(courseTimes.stream().map(CourseTimeMapstruct::toDTO).collect(Collectors.toList()));
-        return result;
-    }
+//    @Override
+//    @Transactional
+//    public CourseDTO assignTimeForCourse(Long id, List<CourseTimeDTO> courseTimeDTOList) {
+//        Course course = courseRepository.findById(id).orElse(null);
+//        if (course == null) {
+//            log.error("Assign Time for Course Error. Cannot find Course with ID: {}", id);
+//            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+//        }
+//
+//        Set<CourseTime> courseTimes = course.getCourseTimes();
+//        for (CourseTimeDTO dto : courseTimeDTOList) {
+//            if (courseTimes.stream().anyMatch(item ->
+//                    item.getWeekDay().equalsIgnoreCase(dto.getWeekDay())
+//                            && item.getShift().equalsIgnoreCase(dto.getShift()))) {
+//                continue;
+//            }
+//
+//            CourseTime courseTime = CourseTimeMapstruct.toEntity(dto);
+//            courseTime.setCourse(course);
+//            courseTimes.add(courseTime);
+//        }
+//        course.setCourseTimes(courseTimes);
+//        CourseDTO result = CourseMapstruct.toDTO(course);
+//        result.setCourseTimes(courseTimes.stream().map(CourseTimeMapstruct::toDTO).collect(Collectors.toList()));
+//        return result;
+//    }
 }

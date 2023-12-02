@@ -14,7 +14,7 @@ public class ClassroomDTO {
     private String code;
     private String name;
     private String grade;
-    private int total;
+    private long total;
     private String type;
     private String year;
     private Long homeTeacherId;

@@ -2,6 +2,8 @@ package com.project.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -40,5 +42,17 @@ public class DateUtil {
 		calendar.setTime(date);
 		calendar.add(timeType, time);
 		return calendar.getTime();
+	}
+
+	public static LocalDate convertDatetoLocalDate(Date dateToConvert) {
+		return dateToConvert.toInstant()
+				.atZone(ZoneId.systemDefault())
+				.toLocalDate();
+	}
+
+	public static Date convertLocalDatetoDate(LocalDate dateToConvert) {
+		return java.util.Date.from(dateToConvert.atStartOfDay()
+				.atZone(ZoneId.systemDefault())
+				.toInstant());
 	}
 }

@@ -8,14 +8,13 @@ import lombok.Getter;
 public enum MessageCodeEnum { 
 	
 	/** ============================================== VALIDATION MESSAGE =========================================== */
-	VALIDATION_REQUEST_NULL(1700, "validation.request.null"),
-	VALIDATION_TOKEN_NULL(1701, "validation.token.null"),
-    CONVERT_DATA_ERROR(1702, "convert.data.error"),
-    CONNECTION_TIMEOUT(1720,"connection.timeout"),
-    DATA_NOT_FOUND(1710, "data.not.found"),
-
-
-    INTERNAL_SERVER_ERROR(1750, "internal.server.error")
+    INTERNAL_SERVER_ERROR(5000, "internal.server.error"),
+    VALIDATION_REQUEST_NULL(5001, "validation.request.null"),
+	VALIDATION_TOKEN_NULL(5002, "validation.token.null"),
+    CONVERT_DATA_ERROR(5003, "convert.data.error"),
+    CONNECTION_TIMEOUT(5004,"connection.timeout"),
+    DATA_NOT_FOUND(5005, "data.not.found"),
+    ENUM_NOT_MATCH(5006, "enum.not.match"),
     ;
 
     private final Integer code;

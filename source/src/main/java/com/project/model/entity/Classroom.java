@@ -26,9 +26,6 @@ public class Classroom {
     @Column(name = "grade")
     private String grade;
 
-    @Column(name = "total")
-    private int total = 0;
-
     //Constant: MAIN, SUB
     @Column(name = "type")
     private String type;
@@ -47,8 +44,8 @@ public class Classroom {
     private Set<BorrowEquipment> borrowEquipments;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
-    private Set<ClassroomCourse> classroomCourses;
+    private Set<Course> courses;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "score")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
     private Set<Score> scores;
 }
