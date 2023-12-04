@@ -9,5 +9,5 @@ public interface CourseService {
     CourseDTO add(CourseDTO dto);
     CourseDTO findById(Long id);
     CourseDTO assignTimeForCourse(Long id, List<CourseTimeDTO> courseTimeDTOList);
-    CourseDTO deleteCourseTimeForCourse(Long id, List<CourseTimeDTO> courseTimeDTOList);
+    void deleteCourseTimeForCourse(Long id, List<Long> courseTimesIds);
 }

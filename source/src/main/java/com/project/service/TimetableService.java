@@ -8,5 +8,5 @@ import java.util.List;
 public interface TimetableService {
     void generateTimetable(Course course);
     List<TimetableDTO> findTeacherTimetable(Long teacherId);
-    long deleteTimetable(Long teacherId, String shift, String weekDay);
+    int deleteTimetableByCourseTimeId(Long courseTimeId);
 }

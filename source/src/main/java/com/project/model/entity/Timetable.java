@@ -34,6 +34,9 @@ public class Timetable {
     @Column(name = "week_day")
     private String weekDay;
 
+    @Column(name = "course_time_id")
+    private Long courseTimeId;
+
     @Column(name = "implement_date")
     private Date implementDate;
 

@@ -48,11 +48,12 @@ public class CourseController {
 
     @PutMapping("/course/{id}/remove-time")
     public ResponseEntity<ResponseDTO> removeTimeForCourse(@PathVariable("id") Long id,
-                                                           @RequestBody List<CourseTimeDTO> courseTimeDTOList) {
-        if (CollectionUtils.isEmpty(courseTimeDTOList)) {
+                                                           @RequestBody List<Long> courseTimeIds) {
+        if (CollectionUtils.isEmpty(courseTimeIds)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.VALIDATION_REQUEST_NULL);
         }
 
-        return ResponseUtil.buildSuccess(courseService.deleteCourseTimeForCourse(id, courseTimeDTOList));
+        courseService.deleteCourseTimeForCourse(id, courseTimeIds);
+        return ResponseUtil.buildSuccess(null);
     }
 }

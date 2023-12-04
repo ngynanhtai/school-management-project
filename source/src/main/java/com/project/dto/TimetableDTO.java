@@ -21,6 +21,7 @@ public class TimetableDTO {
     private String classroomName;
     private String shift;
     private String weekDay;
+    private Long courseTimeId;
     @JsonFormat(pattern = DateUtil.DATE_HYPHEN)
     private Date implementDate;
     @JsonFormat(pattern = DateUtil.DATE_HYPHEN)

@@ -3,6 +3,7 @@ package com.project.model.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "course_time")

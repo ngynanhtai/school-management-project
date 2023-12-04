@@ -83,7 +83,7 @@ public class CourseServiceImpl implements CourseService {
 
         if (classroom.getCourses().stream().anyMatch(item -> item.getSubject().equals(subject))) {
             log.error("Create Course Error. Classroom {} already had Course for Subject {}", classroom.getName(), subject.getName());
-            ExceptionUtil.throwCustomException(MessageCodeEnum.CLASSROOM_COURSE_DUPLICATE, "Classroom ".concat(classroom.getName()).concat(" already had Course for Subject ").concat(subject.getName()));
+            ExceptionUtil.throwCustomException(MessageCodeEnum.CLASSROOM_COURSE_DUPLICATE.getCode(), "Classroom ".concat(classroom.getName()).concat(" already had Course for Subject ").concat(subject.getName()));
         }
 
         course.setSubject(subject);
@@ -126,7 +126,7 @@ public class CourseServiceImpl implements CourseService {
         Course course = courseRepository.findById(id).orElse(null);
         if (course == null) {
             log.error("Assign Time for Course Error. Course not found with ID: {}", id);
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND, "Course not found with ID: ".concat(id.toString()));
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Course not found with ID: ".concat(id.toString()));
         }
 
         Set<CourseTime> courseTimes = course.getCourseTimes();
@@ -156,23 +156,23 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public CourseDTO deleteCourseTimeForCourse(Long id, List<CourseTimeDTO> courseTimeDTOList) {
+    public void deleteCourseTimeForCourse(Long id, List<Long> courseTimesIds) {
         Course course = courseRepository.findById(id).orElse(null);
         if (course == null) {
             log.error("Delete Course Time for Course Error. Course not found with ID: {}", id);
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND, "Course not found with ID: ".concat(id.toString()));
         }
 
-        Set<CourseTime> courseTimes = course.getCourseTimes();
-        Set<CourseTime> courseTimesDelete = courseTimeDTOList.stream().map(CourseTimeMapstruct::toEntity).collect(Collectors.toSet());
-        for (CourseTime courseTime : courseTimesDelete) {
-            long count = timetableService.deleteTimetable(course.getTeacher().getId(), courseTime.getShift(), courseTime.getWeekDay());
-            if (count == 0) {
-                ExceptionUtil.throwCustomException(MessageCodeEnum.DELETE_TIMETABLE_ERROR);
+        List<Long> entityIds = course.getCourseTimes().stream().map(CourseTime::getId).collect(Collectors.toList());
+        for (Long courseTimeId : courseTimesIds) {
+            if (!entityIds.contains(courseTimeId)) {
+                ExceptionUtil.throwCustomException(MessageCodeEnum.DELETE_ERROR.getCode(), "Please provide List CourseTime that belongs to Course");
             }
+            int count = timetableService.deleteTimetableByCourseTimeId(courseTimeId);
+            if (count == 0) {
+                ExceptionUtil.throwCustomException(MessageCodeEnum.DELETE_ERROR.getCode(), "Delete Timetable of CourseTime Error");
+            }
+            courseTimeRepository.removeById(courseTimeId);
         }
-
-        courseTimes.removeAll(courseTimesDelete);
-        return CourseMapstruct.toDTO(course);
     }
 }

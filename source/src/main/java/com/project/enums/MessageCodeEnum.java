@@ -15,10 +15,11 @@ public enum MessageCodeEnum {
     CONNECTION_TIMEOUT(5004,"connection.timeout"),
     DATA_NOT_FOUND(5005, "data.not.found"),
     ENUM_NOT_MATCH(5006, "enum.not.found"),
+    DELETE_ERROR(5007, "delete.error"),
 
     TEACHER_SCHEDULE_DUPLICATE(5100, "teacher.schedule.duplicate"),
     CLASSROOM_COURSE_DUPLICATE(5101, "classroom.course.duplicate"),
-    DELETE_TIMETABLE_ERROR(5102, "delete.timetable.error")
+
     ;
 
     private final Integer code;
