@@ -1,6 +1,7 @@
 package com.project.service.impl;
 
 import com.project.dto.CourseDTO;
+import com.project.dto.CourseTimeDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.*;
 import com.project.model.mapstruct.CourseMapstruct;
@@ -80,6 +81,11 @@ public class CourseServiceImpl implements CourseService {
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Classroom not found with ID: ".concat(dto.getClassroomId().toString()));
         }
 
+        if (classroom.getCourses().stream().anyMatch(item -> item.getSubject().equals(subject))) {
+            log.error("Create Course Error. Classroom {} already had Course for Subject {}", classroom.getName(), subject.getName());
+            ExceptionUtil.throwCustomException(MessageCodeEnum.CLASSROOM_COURSE_DUPLICATE, "Classroom ".concat(classroom.getName()).concat(" already had Course for Subject ").concat(subject.getName()));
+        }
+
         course.setSubject(subject);
         course.setTeacher(teacher);
         course.setClassroom(classroom);
@@ -114,30 +120,59 @@ public class CourseServiceImpl implements CourseService {
         return result;
     }
 
-//    @Override
-//    @Transactional
-//    public CourseDTO assignTimeForCourse(Long id, List<CourseTimeDTO> courseTimeDTOList) {
-//        Course course = courseRepository.findById(id).orElse(null);
-//        if (course == null) {
-//            log.error("Assign Time for Course Error. Cannot find Course with ID: {}", id);
-//            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
-//        }
-//
-//        Set<CourseTime> courseTimes = course.getCourseTimes();
-//        for (CourseTimeDTO dto : courseTimeDTOList) {
-//            if (courseTimes.stream().anyMatch(item ->
-//                    item.getWeekDay().equalsIgnoreCase(dto.getWeekDay())
-//                            && item.getShift().equalsIgnoreCase(dto.getShift()))) {
-//                continue;
-//            }
-//
-//            CourseTime courseTime = CourseTimeMapstruct.toEntity(dto);
-//            courseTime.setCourse(course);
-//            courseTimes.add(courseTime);
-//        }
-//        course.setCourseTimes(courseTimes);
-//        CourseDTO result = CourseMapstruct.toDTO(course);
-//        result.setCourseTimes(courseTimes.stream().map(CourseTimeMapstruct::toDTO).collect(Collectors.toList()));
-//        return result;
-//    }
+    @Override
+    @Transactional
+    public CourseDTO assignTimeForCourse(Long id, List<CourseTimeDTO> courseTimeDTOList) {
+        Course course = courseRepository.findById(id).orElse(null);
+        if (course == null) {
+            log.error("Assign Time for Course Error. Course not found with ID: {}", id);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND, "Course not found with ID: ".concat(id.toString()));
+        }
+
+        Set<CourseTime> courseTimes = course.getCourseTimes();
+        int count = 0;
+        for (CourseTimeDTO dto : courseTimeDTOList) {
+            if (courseTimes.stream().anyMatch(item ->
+                    item.getWeekDay().equalsIgnoreCase(dto.getWeekDay())
+                            && item.getShift().equalsIgnoreCase(dto.getShift()))) {
+                continue;
+            }
+
+            CourseTime courseTime = CourseTimeMapstruct.toEntity(dto);
+            courseTime.setCourse(course);
+            courseTimes.add(courseTime);
+            count++;
+        }
+        course.setCourseTimes(courseTimes);
+
+        if (count > 0) {
+            timetableService.generateTimetable(course);
+        }
+
+        CourseDTO result = CourseMapstruct.toDTO(course);
+        result.setCourseTimes(courseTimes.stream().map(CourseTimeMapstruct::toDTO).collect(Collectors.toList()));
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public CourseDTO deleteCourseTimeForCourse(Long id, List<CourseTimeDTO> courseTimeDTOList) {
+        Course course = courseRepository.findById(id).orElse(null);
+        if (course == null) {
+            log.error("Delete Course Time for Course Error. Course not found with ID: {}", id);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND, "Course not found with ID: ".concat(id.toString()));
+        }
+
+        Set<CourseTime> courseTimes = course.getCourseTimes();
+        Set<CourseTime> courseTimesDelete = courseTimeDTOList.stream().map(CourseTimeMapstruct::toEntity).collect(Collectors.toSet());
+        for (CourseTime courseTime : courseTimesDelete) {
+            long count = timetableService.deleteTimetable(course.getTeacher().getId(), courseTime.getShift(), courseTime.getWeekDay());
+            if (count == 0) {
+                ExceptionUtil.throwCustomException(MessageCodeEnum.DELETE_TIMETABLE_ERROR);
+            }
+        }
+
+        courseTimes.removeAll(courseTimesDelete);
+        return CourseMapstruct.toDTO(course);
+    }
 }

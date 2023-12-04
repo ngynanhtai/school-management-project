@@ -31,6 +31,9 @@ public class Timetable {
     @Column(name = "shift")
     private String shift;
 
+    @Column(name = "week_day")
+    private String weekDay;
+
     @Column(name = "implement_date")
     private Date implementDate;
 

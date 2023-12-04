@@ -16,7 +16,9 @@ public enum MessageCodeEnum {
     DATA_NOT_FOUND(5005, "data.not.found"),
     ENUM_NOT_MATCH(5006, "enum.not.found"),
 
-    TEACHER_SCHEDULE_DUPLICATE(5100, "teacher.schedule.duplicate")
+    TEACHER_SCHEDULE_DUPLICATE(5100, "teacher.schedule.duplicate"),
+    CLASSROOM_COURSE_DUPLICATE(5101, "classroom.course.duplicate"),
+    DELETE_TIMETABLE_ERROR(5102, "delete.timetable.error")
     ;
 
     private final Integer code;

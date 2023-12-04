@@ -55,12 +55,10 @@ public class TimetableServiceImpl implements TimetableService {
 
             if (!ObjectUtils.isEmpty(timetables)) {
                 Timetable timetable = timetables.stream()
-                        .filter(item -> item.getShift().equalsIgnoreCase(shift)
-                                && DateUtil.convertDatetoLocalDate(item.getImplementDate()).getDayOfWeek().getValue() == DateEnum.findByDateString(weekDay).getDateInt())
+                        .filter(item -> item.getShift().equalsIgnoreCase(shift) && item.getWeekDay().equalsIgnoreCase(weekDay))
                         .findFirst().orElse(null);
                 if (timetable != null) {
-                    log.info("Teacher already has schedule on: {} - {}", weekDay, shift);
-                    ExceptionUtil.throwCustomException(MessageCodeEnum.TEACHER_SCHEDULE_DUPLICATE);
+                    continue;
                 }
             }
 
@@ -68,6 +66,7 @@ public class TimetableServiceImpl implements TimetableService {
                 if (date.getDayOfWeek().getValue() == DateEnum.findByDateString(weekDay).getDateInt()) {
                     Timetable timetable = new Timetable();
                     timetable.setShift(shift);
+                    timetable.setWeekDay(weekDay);
                     timetable.setClassroomName(classroomName);
                     timetable.setTeacherId(teacherId);
                     timetable.setTeacherName(teacherName);
@@ -85,9 +84,15 @@ public class TimetableServiceImpl implements TimetableService {
     public List<TimetableDTO> findTeacherTimetable(Long teacherId) {
         List<Timetable> timetables = timetableRepository.findByTeacherId(teacherId).orElse(ListUtil.emptyList());
         if (CollectionUtils.isEmpty(timetables)) {
-            log.info("Cannot find Timetable with TeacherID: {}", teacherId);
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Cannot find Timetable with TeacherID: ".concat(teacherId.toString()));
+            log.info("Timetable not found with TeacherID: {}", teacherId);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Timetable not found with TeacherID: ".concat(teacherId.toString()));
         }
         return timetables.stream().map(TimetableMapstruct::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public long deleteTimetable(Long teacherId, String shift, String weekDay) {
+        return timetableRepository.deleteTimetable(teacherId, shift, weekDay);
     }
 }

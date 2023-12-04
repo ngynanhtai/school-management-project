@@ -82,7 +82,7 @@ public class ClassroomServiceImpl implements ClassroomService {
         List<Student> students = studentRepository.findStudentsByIds(studentIds).orElse(ListUtil.emptyList());
         if (students.isEmpty()) {
             log.info("Assign Students to Classroom Error. Cannot find any Student with IDs: {}", studentIds);
-            ExceptionUtil.throwCustomException(HttpStatus.SC_BAD_REQUEST, "Assign Students to Classroom Error. Cannot find any Student with IDs: ".concat(studentIds.toString()));
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Cannot find any Student with IDs: ".concat(studentIds.toString()));
         }
 
         Set<ClassroomStudent> classroomStudents = classroom.getClassroomStudents();
