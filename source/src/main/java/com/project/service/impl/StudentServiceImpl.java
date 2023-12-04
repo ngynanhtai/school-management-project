@@ -48,7 +48,7 @@ public class StudentServiceImpl implements StudentService {
         Role role = roleRepository.findStudentType();
         if (role == null) {
             log.error("Create Student Error. Cannot find Student role");
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Cannot find Student role");
         }
         student.setRole(role);
         student.setCode(CommonMethods.randomCode(role.getType()));

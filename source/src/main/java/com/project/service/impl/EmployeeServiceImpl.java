@@ -65,8 +65,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Role role = roleRepository.findById(dto.getRoleId()).orElse(null);
         if (role == null) {
-            log.error("Create Employee Error. Cannot find role with ID: {}", dto.getRoleId());
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            log.error("Create Employee Error. Role not found with ID: {}", dto.getRoleId());
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Role not found with ID: ".concat(dto.getRoleId().toString()));
         }
 
         if (Constant.STUDENT_ROLE.equalsIgnoreCase(role.getType())) {

@@ -65,19 +65,19 @@ public class CourseServiceImpl implements CourseService {
         Subject subject = subjectRepository.findById(dto.getSubjectId()).orElse(null);
         if (subject == null) {
             log.error("Create Course Error. Subject not found with ID: {}", dto.getSubjectId());
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Subject not found with ID: ".concat(dto.getSubjectId().toString()));
         }
 
         Employee teacher = employeeRepository.findById(dto.getTeacherId()).orElse(null);
         if (teacher == null) {
             log.error("Create Course Error. Teacher not found with ID: {}", dto.getTeacherId());
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Teacher not found with ID: ".concat(dto.getTeacherId().toString()));
         }
 
         Classroom classroom = classroomRepository.findById(dto.getClassroomId()).orElse(null);
         if (classroom == null) {
-            log.error("Create Course Error. Classroom not found with ID: {}", dto.getTeacherId());
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            log.error("Create Course Error. Classroom not found with ID: {}", dto.getClassroomId());
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Classroom not found with ID: ".concat(dto.getClassroomId().toString()));
         }
 
         course.setSubject(subject);
@@ -106,7 +106,7 @@ public class CourseServiceImpl implements CourseService {
     public CourseDTO findById(Long id) {
         Course course = courseRepository.findById(id).orElse(null);
         if (course == null) {
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Course not found with ID: ".concat(id.toString()));
         }
         CourseDTO result = CourseMapstruct.toDTO(course);
         Set<CourseTime> courseTimes = course.getCourseTimes();

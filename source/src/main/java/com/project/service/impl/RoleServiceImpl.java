@@ -58,7 +58,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = roleRepository.findById(id).orElse(null);
         if (role == null) {
             log.error("Find Employee By RoleID Error. Role not found with ID: {}", id);
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Role not found with ID: ".concat(id.toString()));
         }
 
         Set<Employee> employees = role.getEmployees();

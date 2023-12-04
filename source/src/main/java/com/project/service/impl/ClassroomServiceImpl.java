@@ -56,8 +56,8 @@ public class ClassroomServiceImpl implements ClassroomService {
 
         Employee employee = employeeRepository.findById(dto.getHomeTeacherId()).orElse(null);
         if (employee == null) {
-            log.error("Create Classroom Error. Cannot find Teacher with ID: {}", dto.getHomeTeacherId());
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            log.error("Create Classroom Error. Teacher not found with ID: {}", dto.getHomeTeacherId());
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Teacher not found with ID: ".concat(dto.getHomeTeacherId().toString()));
         }
 
         if (!Constant.TEACHER_ROLE.equalsIgnoreCase(employee.getRole().getType())) {
@@ -75,8 +75,8 @@ public class ClassroomServiceImpl implements ClassroomService {
     public List<StudentDTO> assignStudents(Long classroomId, List<Long> studentIds) {
         Classroom classroom = classroomRepository.findById(classroomId).orElse(null);
         if (classroom == null) {
-            log.info("Assign Students to Classroom Error. Cannot find Classroom with ID: {}", classroomId);
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            log.info("Assign Students to Classroom Error. Classroom not found with ID: {}", classroomId);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Classroom not found with ID: ".concat(classroomId.toString()));
         }
 
         List<Student> students = studentRepository.findStudentsByIds(studentIds).orElse(ListUtil.emptyList());
@@ -106,8 +106,8 @@ public class ClassroomServiceImpl implements ClassroomService {
     public List<StudentDTO> findStudentsByClassroomId(Long id) {
         Classroom classroom = classroomRepository.findById(id).orElse(null);
         if (classroom == null) {
-            log.info("Find Students By Classroom ID Error. Cannot find Classroom with ID: {}", id);
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            log.info("Find Students By Classroom ID Error. Classroom not found with ID: {}", id);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Classroom not found with ID: ".concat(id.toString()));
         }
 
         Set<ClassroomStudent> classroomStudents = classroom.getClassroomStudents();

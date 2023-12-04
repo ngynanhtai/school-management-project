@@ -1,7 +1,6 @@
 package com.project.controller.management;
 
 import com.project.dto.CourseDTO;
-import com.project.dto.CourseTimeDTO;
 import com.project.dto.common.ResponseDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.service.CourseService;
@@ -10,10 +9,7 @@ import com.project.utils.ResponseUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/system")

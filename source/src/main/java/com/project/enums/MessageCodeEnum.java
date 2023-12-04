@@ -14,7 +14,9 @@ public enum MessageCodeEnum {
     CONVERT_DATA_ERROR(5003, "convert.data.error"),
     CONNECTION_TIMEOUT(5004,"connection.timeout"),
     DATA_NOT_FOUND(5005, "data.not.found"),
-    ENUM_NOT_MATCH(5006, "enum.not.match"),
+    ENUM_NOT_MATCH(5006, "enum.not.found"),
+
+    TEACHER_SCHEDULE_DUPLICATE(5100, "teacher.schedule.duplicate")
     ;
 
     private final Integer code;

@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,7 +30,6 @@ import java.util.stream.Collectors;
 public class TimetableServiceImpl implements TimetableService {
     @Autowired
     private TimetableRepository timetableRepository;
-
 
     @Override
     @Transactional
@@ -48,12 +48,26 @@ public class TimetableServiceImpl implements TimetableService {
         Long teacherId = teacher.getId();
         String teacherName = teacher.getFullName();
 
+        List<Timetable> timetables = timetableRepository.findByTeacherId(teacherId).orElse(ListUtil.emptyList());
         for (CourseTime courseTime : courseTimes) {
             String weekDay = courseTime.getWeekDay();
+            String shift = courseTime.getShift();
+
+            if (!ObjectUtils.isEmpty(timetables)) {
+                Timetable timetable = timetables.stream()
+                        .filter(item -> item.getShift().equalsIgnoreCase(shift)
+                                && DateUtil.convertDatetoLocalDate(item.getImplementDate()).getDayOfWeek().getValue() == DateEnum.findByDateString(weekDay).getDateInt())
+                        .findFirst().orElse(null);
+                if (timetable != null) {
+                    log.info("Teacher already has schedule on: {} - {}", weekDay, shift);
+                    ExceptionUtil.throwCustomException(MessageCodeEnum.TEACHER_SCHEDULE_DUPLICATE);
+                }
+            }
+
             for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
                 if (date.getDayOfWeek().getValue() == DateEnum.findByDateString(weekDay).getDateInt()) {
                     Timetable timetable = new Timetable();
-                    timetable.setShift(courseTime.getShift());
+                    timetable.setShift(shift);
                     timetable.setClassroomName(classroomName);
                     timetable.setTeacherId(teacherId);
                     timetable.setTeacherName(teacherName);
@@ -72,7 +86,7 @@ public class TimetableServiceImpl implements TimetableService {
         List<Timetable> timetables = timetableRepository.findByTeacherId(teacherId).orElse(ListUtil.emptyList());
         if (CollectionUtils.isEmpty(timetables)) {
             log.info("Cannot find Timetable with TeacherID: {}", teacherId);
-            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Cannot find Timetable with TeacherID: ".concat(teacherId.toString()));
         }
         return timetables.stream().map(TimetableMapstruct::toDTO).collect(Collectors.toList());
     }
