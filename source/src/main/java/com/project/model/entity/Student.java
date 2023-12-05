@@ -75,16 +75,22 @@ public class Student {
     @Column(name = "second_parent_relation")
     private String secondParentRelation;
 
+    @Column(name = "deleted")
+    private boolean deleted = false;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "student")
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "student",
+            orphanRemoval = true)
     private Set<ClassroomStudent> classroomStudents;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "payer")
-    private Set<Invoice> payerInvoices;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "student")
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "student",
+            orphanRemoval = true)
     private Set<Score> scores;
 }

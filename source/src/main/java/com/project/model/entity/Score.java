@@ -22,9 +22,12 @@ public class Score {
     @Column(name = "note")
     private String note;
 
+    @Column(name = "type")
+    private String type;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "subject_id", referencedColumnName = "id")
-    private Subject subject;
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private Course course;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "class_id", referencedColumnName = "id")
@@ -34,7 +37,6 @@ public class Score {
     @JoinColumn(name = "student_id", referencedColumnName = "id")
     private Student student;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "created_by", referencedColumnName = "id")
-    private Employee createdBy;
+    @Column(name = "created_user_id")
+    private Long createdUserId;
 }

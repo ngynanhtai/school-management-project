@@ -27,13 +27,11 @@ public class Invoice {
     @Column(name = "money_amount")
     private Double moneyAmount;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "payer_id", referencedColumnName = "id")
-    private Student payer;
+    @Column(name = "payer_id")
+    private Long payerId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "collector_id", referencedColumnName = "id")
-    private Employee collector;
+    @Column(name = "collector_id")
+    private Long collectorId;
 
     @Column(name = "created_date", updatable = false)
     @CreationTimestamp

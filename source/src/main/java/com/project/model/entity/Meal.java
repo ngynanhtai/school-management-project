@@ -38,11 +38,9 @@ public class Meal {
     @CreationTimestamp
     private Timestamp createdDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "created_by", referencedColumnName = "id")
-    private Employee createdBy;
+    @Column(name = "created_user_id")
+    private Long createdUserId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "assigned_to", referencedColumnName = "id")
-    private Employee assignedTo;
+    @Column(name = "assigned_to_id")
+    private Long assignedToId;
 }

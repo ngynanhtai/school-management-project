@@ -32,6 +32,9 @@ public class DocumentType {
     @Column(name = "is_multiple")
     private boolean isMultiple;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "documentType")
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "documentType",
+            orphanRemoval = true)
     private Set<Document> documents;
 }

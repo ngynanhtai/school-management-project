@@ -26,13 +26,11 @@ public class BorrowEquipment {
     @Column(name = "is_returned")
     private boolean isReturned = false;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "borrower_id", referencedColumnName = "id")
-    private Employee borrower;
+    @Column(name = "borrower_id")
+    private Long borrowerId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "class_id", referencedColumnName = "id")
-    private Classroom classroom;
+    @Column(name = "class_id")
+    private Long classroomId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "class_equipment_id", referencedColumnName = "id")

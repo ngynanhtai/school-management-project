@@ -34,6 +34,9 @@ public class Course {
     @Column(name = "fee")
     private Double fee;
 
+    @Column(name = "deleted")
+    private boolean deleted = false;
+
     @Column(name = "active_status")
     private boolean activeStatus = false;
 
@@ -45,8 +48,17 @@ public class Course {
     @CreationTimestamp
     private Timestamp createdDate;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "course")
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "course",
+            orphanRemoval = true)
     private Set<CourseTime> courseTimes;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "course",
+            orphanRemoval = true)
+    private Set<Score> scores;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "teacher_id", referencedColumnName = "id")

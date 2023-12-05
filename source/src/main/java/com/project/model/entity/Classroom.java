@@ -37,15 +37,24 @@ public class Classroom {
     @JoinColumn(name = "home_teacher_id", referencedColumnName = "id")
     private Employee homeTeacher;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
+    @Column(name = "deleted")
+    private boolean deleted = false;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "classroom",
+            orphanRemoval = true)
     private Set<ClassroomStudent> classroomStudents;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
-    private Set<BorrowEquipment> borrowEquipments;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "classroom",
+            orphanRemoval = true)
     private Set<Course> courses;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classroom")
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "classroom",
+            orphanRemoval = true)
     private Set<Score> scores;
 }

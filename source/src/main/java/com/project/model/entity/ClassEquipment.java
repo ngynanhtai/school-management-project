@@ -32,6 +32,9 @@ public class ClassEquipment {
     @CreationTimestamp
     private Timestamp createdDate;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "classEquipment")
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "classEquipment",
+            orphanRemoval = true)
     private Set<BorrowEquipment> borrowEquipments;
 }

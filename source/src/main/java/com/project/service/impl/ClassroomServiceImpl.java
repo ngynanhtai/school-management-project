@@ -54,7 +54,7 @@ public class ClassroomServiceImpl implements ClassroomService {
             ExceptionUtil.throwCustomException(HttpStatus.SC_BAD_REQUEST, "Create Classroom Error. Classroom must not have a Teacher");
         }
 
-        Employee employee = employeeRepository.findById(dto.getHomeTeacherId()).orElse(null);
+        Employee employee = employeeRepository.findOneById(dto.getHomeTeacherId()).orElse(null);
         if (employee == null) {
             log.error("Create Classroom Error. Teacher not found with ID: {}", dto.getHomeTeacherId());
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Teacher not found with ID: ".concat(dto.getHomeTeacherId().toString()));
@@ -73,7 +73,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     @Override
     @Transactional
     public List<StudentDTO> assignStudents(Long classroomId, List<Long> studentIds) {
-        Classroom classroom = classroomRepository.findById(classroomId).orElse(null);
+        Classroom classroom = classroomRepository.findOneById(classroomId).orElse(null);
         if (classroom == null) {
             log.info("Assign Students to Classroom Error. Classroom not found with ID: {}", classroomId);
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Classroom not found with ID: ".concat(classroomId.toString()));
@@ -104,7 +104,7 @@ public class ClassroomServiceImpl implements ClassroomService {
 
     @Override
     public List<StudentDTO> findStudentsByClassroomId(Long id) {
-        Classroom classroom = classroomRepository.findById(id).orElse(null);
+        Classroom classroom = classroomRepository.findOneById(id).orElse(null);
         if (classroom == null) {
             log.info("Find Students By Classroom ID Error. Classroom not found with ID: {}", id);
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Classroom not found with ID: ".concat(id.toString()));
@@ -114,5 +114,16 @@ public class ClassroomServiceImpl implements ClassroomService {
         List<Student> students = classroomStudents.stream().map(ClassroomStudent::getStudent).collect(Collectors.toList());
 
         return students.stream().map(StudentMapstruct::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteClassroom(Long id) {
+        Classroom classroom = classroomRepository.findById(id).orElse(null);
+        if (classroom == null) {
+            log.info("Delete Classroom Error. Classroom not found with ID: {}", id);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Classroom not found with ID: ".concat(id.toString()));
+        }
+        classroom.setDeleted(true);
     }
 }

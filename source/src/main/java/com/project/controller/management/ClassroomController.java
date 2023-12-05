@@ -1,12 +1,14 @@
 package com.project.controller.management;
 
 import com.project.dto.ClassroomDTO;
+import com.project.dto.common.MessageResponse;
 import com.project.dto.common.ResponseDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.service.ClassroomService;
 import com.project.utils.ExceptionUtil;
 import com.project.utils.ResponseUtil;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
@@ -43,5 +45,16 @@ public class ClassroomController {
     @GetMapping("/classroom/{id}/students")
     public ResponseEntity<ResponseDTO> findStudentsByClassroomId(@PathVariable("id") Long id) {
         return ResponseUtil.buildSuccess(classroomService.findStudentsByClassroomId(id));
+    }
+
+    @PutMapping("/classroom/delete/{id}")
+    public ResponseEntity<ResponseDTO> deleteClassroom(@PathVariable("id") Long id) {
+        classroomService.deleteClassroom(id);
+        return ResponseUtil.buildSuccess(
+                MessageResponse
+                .builder()
+                .status(HttpStatus.SC_OK)
+                .message("Delete Classroom successfully!")
+                .build());
     }
 }

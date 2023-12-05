@@ -27,9 +27,8 @@ public class Expense {
     @Column(name = "money_amount")
     private Double moneyAmount;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "created_by", referencedColumnName = "id")
-    private Employee createdBy;
+    @Column(name = "created_user_id")
+    private Long createdUserId;
 
     @Column(name = "created_date", updatable = false)
     @CreationTimestamp

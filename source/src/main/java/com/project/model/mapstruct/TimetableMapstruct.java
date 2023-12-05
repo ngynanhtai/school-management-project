@@ -25,7 +25,7 @@ public class TimetableMapstruct {
                 .classroomName(object.getClassroomName())
                 .shift(object.getShift())
                 .weekDay(object.getWeekDay())
-                .courseTimeId(object.getCourseTimeId())
+                .courseTimeId(object.getCourseTime().getId())
                 .implementDate(object.getImplementDate())
                 .createdDate(object.getCreatedDate())
                 .build();

@@ -23,6 +23,12 @@ public class CourseTime {
     @Column(name = "week_day")
     private String weekDay;
 
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "courseTime",
+            orphanRemoval = true)
+    private Set<Timetable> timetables;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "course_id", referencedColumnName = "id")
     private Course course;

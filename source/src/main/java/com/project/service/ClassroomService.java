@@ -9,4 +9,5 @@ public interface ClassroomService {
     ClassroomDTO add(ClassroomDTO dto);
     List<StudentDTO> assignStudents(Long classroomId, List<Long> studentIds);
     List<StudentDTO> findStudentsByClassroomId(Long id);
+    void deleteClassroom(Long id);
 }

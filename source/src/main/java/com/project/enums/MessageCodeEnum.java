@@ -16,9 +16,8 @@ public enum MessageCodeEnum {
     DATA_NOT_FOUND(5005, "data.not.found"),
     ENUM_NOT_MATCH(5006, "enum.not.found"),
     DELETE_ERROR(5007, "delete.error"),
-
-    TEACHER_SCHEDULE_DUPLICATE(5100, "teacher.schedule.duplicate"),
-    CLASSROOM_COURSE_DUPLICATE(5101, "classroom.course.duplicate"),
+    ENTITY_DELETED(5008,"entity.deleted"),
+    DUPLICATE_DATA(5009, "duplicate.data")
 
     ;
 

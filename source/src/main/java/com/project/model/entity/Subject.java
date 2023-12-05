@@ -27,9 +27,9 @@ public class Subject {
     @Column(name = "type")
     private String type;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "subject")
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "subject",
+            orphanRemoval = true)
     private Set<Course> courses;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "score")
-    private Set<Score> scores;
 }

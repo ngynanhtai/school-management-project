@@ -11,6 +11,9 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    @Query(nativeQuery = true, value = "SELECT * FROM student WHERE id in (:studentIds)")
+    @Query(nativeQuery = true, value = "SELECT * FROM student WHERE id in (:studentIds) AND deleted = false")
     Optional<List<Student>> findStudentsByIds(@Param("studentIds") List<Long> studentIds);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM student WHERE id = :id AND deleted = false")
+    Optional<Student> findOneById(@Param("id") Long id);
 }

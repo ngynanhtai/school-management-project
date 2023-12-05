@@ -69,21 +69,21 @@ public class CourseServiceImpl implements CourseService {
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Subject not found with ID: ".concat(dto.getSubjectId().toString()));
         }
 
-        Employee teacher = employeeRepository.findById(dto.getTeacherId()).orElse(null);
+        Employee teacher = employeeRepository.findOneById(dto.getTeacherId()).orElse(null);
         if (teacher == null) {
             log.error("Create Course Error. Teacher not found with ID: {}", dto.getTeacherId());
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Teacher not found with ID: ".concat(dto.getTeacherId().toString()));
         }
 
-        Classroom classroom = classroomRepository.findById(dto.getClassroomId()).orElse(null);
+        Classroom classroom = classroomRepository.findOneById(dto.getClassroomId()).orElse(null);
         if (classroom == null) {
             log.error("Create Course Error. Classroom not found with ID: {}", dto.getClassroomId());
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Classroom not found with ID: ".concat(dto.getClassroomId().toString()));
         }
 
-        if (classroom.getCourses().stream().anyMatch(item -> item.getSubject().equals(subject))) {
+        if (classroom.getCourses().stream().anyMatch(item -> item.getSubject().equals(subject) && item.isActiveStatus())) {
             log.error("Create Course Error. Classroom {} already had Course for Subject {}", classroom.getName(), subject.getName());
-            ExceptionUtil.throwCustomException(MessageCodeEnum.CLASSROOM_COURSE_DUPLICATE.getCode(), "Classroom ".concat(classroom.getName()).concat(" already had Course for Subject ").concat(subject.getName()));
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DUPLICATE_DATA.getCode(), "Classroom ".concat(classroom.getName()).concat(" already had Course for Subject ").concat(subject.getName()));
         }
 
         course.setSubject(subject);
@@ -123,7 +123,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public CourseDTO assignTimeForCourse(Long id, List<CourseTimeDTO> courseTimeDTOList) {
-        Course course = courseRepository.findById(id).orElse(null);
+        Course course = courseRepository.findOneById(id).orElse(null);
         if (course == null) {
             log.error("Assign Time for Course Error. Course not found with ID: {}", id);
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Course not found with ID: ".concat(id.toString()));
@@ -157,22 +157,36 @@ public class CourseServiceImpl implements CourseService {
     @Override
     @Transactional
     public void deleteCourseTimeForCourse(Long id, List<Long> courseTimesIds) {
-        Course course = courseRepository.findById(id).orElse(null);
+        Course course = courseRepository.findOneById(id).orElse(null);
         if (course == null) {
             log.error("Delete Course Time for Course Error. Course not found with ID: {}", id);
             ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND, "Course not found with ID: ".concat(id.toString()));
         }
 
-        List<Long> entityIds = course.getCourseTimes().stream().map(CourseTime::getId).collect(Collectors.toList());
-        for (Long courseTimeId : courseTimesIds) {
-            if (!entityIds.contains(courseTimeId)) {
+        List<CourseTime> courseTimeDelete = courseTimeRepository.findByListId(courseTimesIds).orElse(ListUtil.emptyList());
+        if (CollectionUtils.isEmpty(courseTimeDelete)) {
+            log.error("Delete Course Time for Course Error. CourseTime not found with IDs: {}", courseTimesIds);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND, "Course not found with ID: ".concat(courseTimesIds.toString()));
+        }
+
+        Set<CourseTime> courseTimeDeleteSet = new HashSet<>(courseTimeDelete);
+        Set<CourseTime> courseTimes = course.getCourseTimes();
+        for (CourseTime courseTime : courseTimeDeleteSet) {
+            if (!courseTimes.contains(courseTime)) {
                 ExceptionUtil.throwCustomException(MessageCodeEnum.DELETE_ERROR.getCode(), "Please provide List CourseTime that belongs to Course");
             }
-            int count = timetableService.deleteTimetableByCourseTimeId(courseTimeId);
-            if (count == 0) {
-                ExceptionUtil.throwCustomException(MessageCodeEnum.DELETE_ERROR.getCode(), "Delete Timetable of CourseTime Error");
-            }
-            courseTimeRepository.removeById(courseTimeId);
         }
+        courseTimes.removeAll(courseTimeDeleteSet);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCourse(Long id) {
+        Course course = courseRepository.findById(id).orElse(null);
+        if (course == null) {
+            log.info("Delete Course Error. Course not found with ID: {}", id);
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Course not found with ID: ".concat(id.toString()));
+        }
+        course.setDeleted(true);
     }
 }

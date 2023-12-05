@@ -34,8 +34,9 @@ public class Timetable {
     @Column(name = "week_day")
     private String weekDay;
 
-    @Column(name = "course_time_id")
-    private Long courseTimeId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "course_time_id", referencedColumnName = "id")
+    private CourseTime courseTime;
 
     @Column(name = "implement_date")
     private Date implementDate;

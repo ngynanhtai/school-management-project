@@ -52,7 +52,6 @@ public class TimetableServiceImpl implements TimetableService {
         for (CourseTime courseTime : courseTimes) {
             String weekDay = courseTime.getWeekDay();
             String shift = courseTime.getShift();
-            Long courseTimeId = courseTime.getId();
 
             if (!ObjectUtils.isEmpty(timetables)) {
                 Timetable timetable = timetables.stream()
@@ -71,7 +70,7 @@ public class TimetableServiceImpl implements TimetableService {
                     timetable.setClassroomName(classroomName);
                     timetable.setTeacherId(teacherId);
                     timetable.setTeacherName(teacherName);
-                    timetable.setCourseTimeId(courseTimeId);
+                    timetable.setCourseTime(courseTime);
                     timetable.setImplementDate(DateUtil.convertLocalDatetoDate(date));
 
                     timetableRepository.save(timetable);
