@@ -21,8 +21,8 @@ public class Document {
     @Column(name = "path")
     private String path;
 
-    @Column(name = "type_code")
-    private String typeCode;
+    @Column(name = "type")
+    private String type;
 
     @Column(name = "user_code")
     private String userCode;
@@ -30,8 +30,11 @@ public class Document {
     @Column(name = "class_code")
     private String classCode;
 
-    @Column(name = "is_public")
-    private boolean isPublic;
+    @Column(name = "deleted")
+    private boolean deleted = false;
+
+    @Column(name = "updated_date")
+    private Timestamp updatedDate;
 
     @Column(name = "created_date", updatable = false)
     @CreationTimestamp

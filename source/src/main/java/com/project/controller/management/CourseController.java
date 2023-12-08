@@ -59,14 +59,14 @@ public class CourseController {
         return ResponseUtil.buildSuccess(null);
     }
 
-    @PutMapping("/course/delete/{id}")
+    @DeleteMapping("/course/{id}")
     public ResponseEntity<ResponseDTO> deleteCourse(@PathVariable("id") Long id) {
         courseService.deleteCourse(id);
         return ResponseUtil.buildSuccess(
                 MessageResponse
                         .builder()
                         .status(HttpStatus.SC_OK)
-                        .message("Delete Course successfully!")
+                        .message("Delete Course Successfully!")
                         .build());
     }
 }

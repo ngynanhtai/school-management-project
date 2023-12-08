@@ -29,7 +29,7 @@ public class ScoreController {
         return ResponseUtil.buildSuccess(scoreService.assignScore(dto));
     }
 
-    @PutMapping("/score/delete/{id}")
+    @DeleteMapping("/score/{id}")
     private ResponseEntity<ResponseDTO> deleteScore(@PathVariable("id") Long id,
                                                     @RequestParam("studentId") Long studentId) {
         scoreService.deleteScore(studentId, id);
@@ -37,7 +37,7 @@ public class ScoreController {
                 MessageResponse
                         .builder()
                         .status(HttpStatus.SC_OK)
-                        .message("Delete Score successfully!")
+                        .message("Delete Score Successfully!")
                         .build());
     }
 }

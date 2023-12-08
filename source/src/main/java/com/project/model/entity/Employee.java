@@ -20,7 +20,7 @@ public class Employee {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "phone_number")
@@ -75,13 +75,11 @@ public class Employee {
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "homeTeacher",
-            orphanRemoval = true)
+            mappedBy = "homeTeacher")
     private Set<Classroom> classrooms;
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "teacher",
-            orphanRemoval = true)
+            mappedBy = "teacher")
     private Set<Course> courses;
 }

@@ -21,13 +21,13 @@ spring:
       pool-name: MyHdsPool
       auto-commit: false
   jpa:
+    show-sql: true
+    format_sql: true
     hibernate:
       ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-        show-sql: false
 logging:
   file:
     path: logs
@@ -49,4 +49,7 @@ tls:
     resource: D:/Documents/HDBank/company_b.pkcs12
     protocol: TLS
     password: password
+storage:
+  upload-folder: D:/Study/documents
+  delete-after-days: 30
     

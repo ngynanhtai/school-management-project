@@ -17,7 +17,7 @@ public class Role {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "type")
@@ -28,13 +28,11 @@ public class Role {
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "role",
-            orphanRemoval = true)
+            mappedBy = "role")
     private Set<Employee> employees;
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "role",
-            orphanRemoval = true)
+            mappedBy = "role")
     private Set<Student> students;
 }

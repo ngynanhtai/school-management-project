@@ -17,7 +17,7 @@ public class Subject {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "name")
@@ -29,7 +29,6 @@ public class Subject {
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "subject",
-            orphanRemoval = true)
+            mappedBy = "subject")
     private Set<Course> courses;
 }

@@ -14,11 +14,12 @@ import java.sql.Timestamp;
 public class DocumentDTO {
     private Long id;
     private String path;
-    private String typeCode;
+    private String type;
     private String userCode;
     private String classCode;
-    private boolean isPublic;
+    private String mediaType;
+    @JsonFormat(pattern = DateUtil.DATE_HYPHEN)
+    private Timestamp updatedDate;
     @JsonFormat(pattern = DateUtil.DATE_HYPHEN)
     private Timestamp createdDate;
-    private DocumentTypeDTO documentType;
 }

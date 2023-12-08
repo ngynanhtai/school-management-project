@@ -7,10 +7,15 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfImportedPage;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.project.constant.Constant;
+import com.project.property.FileStorageProperties;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -131,5 +136,17 @@ public class FileUtil {
             log.info("Error: {}", e.getMessage());
         }
         return null;
+    }
+
+    public static Path generatePath(String type, String userCode, String classCode) {
+        Path rootPath = FileStorageProperties.ROOT_UPLOAD_FOLDER;
+        String suffixPath;
+        if (!StringUtils.isEmpty(userCode)) {
+            suffixPath = Constant.PERSONAL_PATH;
+            return Paths.get(rootPath.toString(), suffixPath, userCode, type);
+        } else {
+            suffixPath = Constant.SCHOOL_PATH;
+            return Paths.get(rootPath.toString(), suffixPath, classCode, type);
+        }
     }
 }

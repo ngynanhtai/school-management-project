@@ -17,8 +17,10 @@ public enum MessageCodeEnum {
     ENUM_NOT_MATCH(5006, "enum.not.found"),
     DELETE_ERROR(5007, "delete.error"),
     ENTITY_DELETED(5008,"entity.deleted"),
-    DUPLICATE_DATA(5009, "duplicate.data")
-
+    DUPLICATE_DATA(5009, "duplicate.data"),
+    STORAGE_INIT_ERROR(5010, "storage.init.error"),
+    UPLOAD_FILE_ERROR(5011, "upload.file.error"),
+    DOC_TYPE_NOT_MULTIPLE(5012,"doc.type.not.multiple")
     ;
 
     private final Integer code;

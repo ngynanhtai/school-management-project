@@ -20,7 +20,7 @@ public class Student {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "phone_number")
@@ -90,7 +90,6 @@ public class Student {
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "student",
-            orphanRemoval = true)
+            mappedBy = "student")
     private Set<Score> scores;
 }

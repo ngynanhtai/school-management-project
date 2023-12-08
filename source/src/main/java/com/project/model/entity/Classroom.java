@@ -17,7 +17,7 @@ public class Classroom {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "name")
@@ -42,19 +42,16 @@ public class Classroom {
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "classroom",
-            orphanRemoval = true)
+            mappedBy = "classroom")
     private Set<ClassroomStudent> classroomStudents;
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "classroom",
-            orphanRemoval = true)
+            mappedBy = "classroom")
     private Set<Course> courses;
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "classroom",
-            orphanRemoval = true)
+            mappedBy = "classroom")
     private Set<Score> scores;
 }

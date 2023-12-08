@@ -26,9 +26,11 @@ public class Constant {
 	// ---------------PUNCTUATION-----------------------//
 	public static final String EMPTY = "";
 	public static final String HYPHEN = "-";
+	public static final String UNDERSCORE = "_";
 	public static final String WHITE_SPACE = " ";
 	public static final String PERCENT = "%";
 	public static final String COMMA = ",";
+	public static final String SLASH = "/";
 	public static final String COMMA_SPACE = ", ";
 	public static final String BREAK_LINE = "\n";
 
@@ -43,4 +45,8 @@ public class Constant {
 	// ---------------ROLE-----------------------//
 	public static final String STUDENT_ROLE = "STUDENT";
 	public static final String TEACHER_ROLE = "TEACHER";
+
+	// ---------------Storage-----------------------//
+	public static final String PERSONAL_PATH = "PERSONAL";
+	public static final String SCHOOL_PATH = "SCHOOL";
 }

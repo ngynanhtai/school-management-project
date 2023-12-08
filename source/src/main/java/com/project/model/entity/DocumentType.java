@@ -17,11 +17,14 @@ public class DocumentType {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "basic_name")
+    private String basicName;
 
     @Column(name = "media_type")
     private String mediaType;
@@ -34,7 +37,6 @@ public class DocumentType {
 
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            mappedBy = "documentType",
-            orphanRemoval = true)
+            mappedBy = "documentType")
     private Set<Document> documents;
 }

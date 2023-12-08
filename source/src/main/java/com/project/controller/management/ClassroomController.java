@@ -54,7 +54,7 @@ public class ClassroomController {
                 MessageResponse
                 .builder()
                 .status(HttpStatus.SC_OK)
-                .message("Delete Classroom successfully!")
+                .message("Delete Classroom Successfully!")
                 .build());
     }
 }
