@@ -68,4 +68,14 @@ public class DocumentController {
                         .message("Delete File Successfully!")
                         .build());
     }
+
+    @GetMapping("/document/class/{classCode}")
+    public ResponseEntity<ResponseDTO> findByClassCode(@PathVariable("classCode") String classCode) {
+        return ResponseUtil.buildSuccess(documentService.findByClassCode(classCode));
+    }
+
+    @GetMapping("/document/user/{userCode}")
+    public ResponseEntity<ResponseDTO> findByUserCode(@PathVariable("userCode") String userCode) {
+        return ResponseUtil.buildSuccess(documentService.findByUserCode(userCode));
+    }
 }

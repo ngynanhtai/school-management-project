@@ -14,6 +14,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/school-management
     username: postgres
     password: 123456
+#    url: jdbc:postgresql://127.0.0.1:5432/school-management
+#    username: vnbgiangxd
+#    password: 0001
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 30
@@ -51,5 +54,11 @@ tls:
     password: password
 storage:
   upload-folder: D:/Study/documents
+#  upload-folder: ../../documents
   delete-after-days: 30
-    
+schedule:
+  document:
+    delete-overdue:
+      cron: 0 0 1 * * *
+      config:
+        overdue-days: 30

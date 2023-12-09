@@ -13,7 +13,9 @@ import com.project.service.DocumentService;
 import com.project.service.DocumentTypeService;
 import com.project.utils.ExceptionUtil;
 import com.project.utils.FileUtil;
+import com.project.utils.ListUtil;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Log4j2
@@ -147,15 +150,26 @@ public class DocumentServiceImpl implements DocumentService {
             ExceptionUtil.throwCustomException(MessageCodeEnum.DOC_TYPE_NOT_MULTIPLE.getCode(), String.format("Cannot delete. Only Delete Multiple DocumentType, Type %s is not Multiple", document.getType()));
         }
         document.setDeleted(isDelete);
+        document.setUpdatedDate(new Timestamp(new Date().getTime()));
     }
 
     @Override
     public List<DocumentDTO> findByClassCode(String classCode) {
-        return null;
+        List<Document> documents = documentRepository.findByClassCode(classCode).orElse(ListUtil.emptyList());
+        if (ObjectUtils.isEmpty(documents)) {
+            log.error("Document not found with ClassCode: ".concat(classCode));
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Document not found with ClassCode: ".concat(classCode));
+        }
+        return documents.stream().map(DocumentMapstruct::toDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<DocumentDTO> findByUserCode(String userCode) {
-        return null;
+        List<Document> documents = documentRepository.findByUserCode(userCode).orElse(ListUtil.emptyList());
+        if (ObjectUtils.isEmpty(documents)) {
+            log.error("Document not found with UserCode: ".concat(userCode));
+            ExceptionUtil.throwCustomException(MessageCodeEnum.DATA_NOT_FOUND.getCode(), "Document not found with UserCode: ".concat(userCode));
+        }
+        return documents.stream().map(DocumentMapstruct::toDTO).collect(Collectors.toList());
     }
 }
