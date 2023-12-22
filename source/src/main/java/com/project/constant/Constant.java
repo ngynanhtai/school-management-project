@@ -45,8 +45,12 @@ public class Constant {
 	// ---------------ROLE-----------------------//
 	public static final String STUDENT_ROLE = "STUDENT";
 	public static final String TEACHER_ROLE = "TEACHER";
+	public static final String EMPLOYEE_ROLE = "EMPLOYEE";
 
 	// ---------------Storage-----------------------//
 	public static final String PERSONAL_PATH = "PERSONAL";
 	public static final String SCHOOL_PATH = "SCHOOL";
+
+	// ---------------URI-----------------------//
+	public static final String LOGIN_URI = "/login";
 }

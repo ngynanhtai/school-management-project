@@ -16,4 +16,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM student WHERE id = :id AND deleted = false")
     Optional<Student> findOneById(@Param("id") Long id);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM student WHERE email = :email AND deleted = false")
+    Optional<Student> findOneByEmail(@Param("email") String email);
 }

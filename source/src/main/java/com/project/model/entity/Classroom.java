@@ -37,7 +37,7 @@ public class Classroom {
     @JoinColumn(name = "home_teacher_id", referencedColumnName = "id")
     private Employee homeTeacher;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private boolean deleted = false;
 
     @OneToMany(fetch = FetchType.LAZY,

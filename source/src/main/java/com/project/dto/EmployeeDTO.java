@@ -1,6 +1,7 @@
 package com.project.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.utils.DateUtil;
 import lombok.*;
 
@@ -16,7 +17,8 @@ public class EmployeeDTO {
     private Long id;
     private String code;
     private String phoneNumber;
-    //    private String password;
+    @JsonIgnore
+    private String password;
     private String fullName;
     private String nationalId;
     @JsonFormat(pattern = DateUtil.DATE_HYPHEN)

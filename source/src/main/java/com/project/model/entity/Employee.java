@@ -66,7 +66,7 @@ public class Employee {
     @Column(name = "salary")
     private Double salary;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private boolean deleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)

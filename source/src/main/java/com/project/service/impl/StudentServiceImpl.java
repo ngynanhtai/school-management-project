@@ -14,6 +14,8 @@ import com.project.utils.ListUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -31,6 +33,10 @@ public class StudentServiceImpl implements StudentService {
     @Autowired
     @Lazy
     private RoleRepository roleRepository;
+
+    @Autowired
+    @Lazy
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<StudentDTO> findAll() {
@@ -52,6 +58,7 @@ public class StudentServiceImpl implements StudentService {
         }
         student.setRole(role);
         student.setCode(CommonMethods.randomCode(role.getType()));
+        student.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return StudentMapstruct.toDTO(studentRepository.save(student));
     }

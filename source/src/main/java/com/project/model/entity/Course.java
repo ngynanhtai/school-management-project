@@ -34,7 +34,7 @@ public class Course {
     @Column(name = "fee")
     private Double fee;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private boolean deleted = false;
 
     @Column(name = "active_status")

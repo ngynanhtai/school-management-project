@@ -1,6 +1,5 @@
 package com.project.repository;
 
-import com.project.model.entity.Course;
 import com.project.model.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +16,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM employee WHERE id = :id AND deleted = false")
     Optional<Employee> findOneById(@Param("id") Long id);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM employee WHERE email = :email AND deleted = false")
+    Optional<Employee> findOneByEmail(@Param("email") String email);
 }

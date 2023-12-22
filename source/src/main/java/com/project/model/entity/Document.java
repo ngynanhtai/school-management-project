@@ -30,7 +30,7 @@ public class Document {
     @Column(name = "class_code")
     private String classCode;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private boolean deleted = false;
 
     @Column(name = "updated_date")

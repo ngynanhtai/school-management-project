@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum MessageCodeEnum { 
 	
 	/** ============================================== VALIDATION MESSAGE =========================================== */
+    UNAUTHORIZED(4001, "unauthorized"),
     INTERNAL_SERVER_ERROR(5000, "internal.server.error"),
     VALIDATION_REQUEST_NULL(5001, "validation.request.null"),
 	VALIDATION_TOKEN_NULL(5002, "validation.token.null"),

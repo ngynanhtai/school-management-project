@@ -75,7 +75,7 @@ public class Student {
     @Column(name = "second_parent_relation")
     private String secondParentRelation;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private boolean deleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)

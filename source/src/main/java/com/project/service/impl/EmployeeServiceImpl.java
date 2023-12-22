@@ -17,6 +17,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -34,6 +35,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     @Lazy
     private RoleRepository roleRepository;
+
+    @Autowired
+    @Lazy
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<EmployeeDTO> findAll() {
@@ -75,6 +80,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         employee.setRole(role);
         employee.setCode(CommonMethods.randomCode(role.getType()));
+        employee.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return EmployeeMapstruct.toDTO(employeeRepository.save(employee));
     }
