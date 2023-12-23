@@ -14,6 +14,7 @@ import com.project.utils.ExceptionUtil;
 import com.project.utils.ListUtil;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -83,5 +84,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         return EmployeeMapstruct.toDTO(employeeRepository.save(employee));
+    }
+
+    @Override
+    public List<EmployeeDTO> findEmployeePagination(String query, int page, int limit) {
+        int offset = (page - 1) * limit;
+        List<Employee> employees;
+        if (StringUtils.isEmpty(query)) {
+            employees = employeeRepository.findEmployeePagination(limit, offset).orElse(ListUtil.emptyList());
+        } else {
+            employees = employeeRepository.findEmployeeQueryPagination(query, limit, offset).orElse(ListUtil.emptyList());
+        }
+        return employees.stream().map(EmployeeMapstruct::toDTO).collect(Collectors.toList());
     }
 }

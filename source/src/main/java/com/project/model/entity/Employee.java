@@ -2,9 +2,11 @@ package com.project.model.entity;
 
 import com.project.utils.DateUtil;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
@@ -68,6 +70,10 @@ public class Employee {
 
     @Column(name = "deleted", columnDefinition = "boolean default false")
     private boolean deleted = false;
+
+    @Column(name = "created_date", updatable = false)
+    @CreationTimestamp
+    private Timestamp createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "role_id", referencedColumnName = "id")

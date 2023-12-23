@@ -9,10 +9,7 @@ import com.project.utils.ResponseUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/system")
@@ -28,5 +25,12 @@ public class EmployeeController {
         }
 
         return ResponseUtil.buildSuccess(employeeService.add(dto));
+    }
+
+    @GetMapping("/employee")
+    public ResponseEntity<ResponseDTO> getEmployeesPagination(@RequestParam(value = "query", required = false) String query,
+                                                              @RequestParam(value = "page") Integer page,
+                                                              @RequestParam(value = "limit") Integer limit) {
+        return ResponseUtil.buildSuccess(employeeService.findEmployeePagination(query, page, limit));
     }
 }

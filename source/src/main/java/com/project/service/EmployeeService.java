@@ -10,4 +10,5 @@ public interface EmployeeService {
     List<EmployeeDTO> findAll();
     List<EmployeeDTO> findEmployeesByRoleId(Long roleId);
     EmployeeDTO add(EmployeeDTO dto);
+    List<EmployeeDTO> findEmployeePagination(String query, int page, int limit);
 }

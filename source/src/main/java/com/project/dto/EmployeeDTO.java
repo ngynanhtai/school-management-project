@@ -32,5 +32,7 @@ public class EmployeeDTO {
     private String profession;
     private String maritalStatus;
     private Double salary;
+    private String roleCode;
     private Long roleId;
+    private boolean deleted;
 }
