@@ -28,9 +28,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee")
-    public ResponseEntity<ResponseDTO> getEmployeesPagination(@RequestParam(value = "query", required = false) String query,
-                                                              @RequestParam(value = "page") Integer page,
-                                                              @RequestParam(value = "limit") Integer limit) {
-        return ResponseUtil.buildSuccess(employeeService.findEmployeePagination(query, page, limit));
+    public ResponseEntity<ResponseDTO> getEmployeesPagination(@RequestParam(value = "sortBy", required = false) String query,
+                                                              @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                                              @RequestParam(value = "limit", defaultValue = "6") Integer limit) {
+        return ResponseUtil.buildSuccess(employeeService.findAllEmployeePagination(query, page, limit));
     }
 }

@@ -3,6 +3,7 @@ package com.project.model.mapstruct;
 import com.project.dto.EmployeeDTO;
 import com.project.enums.MessageCodeEnum;
 import com.project.model.entity.Employee;
+import com.project.model.entity.Role;
 import com.project.utils.ExceptionUtil;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -35,6 +36,8 @@ public class EmployeeMapstruct {
         if (ObjectUtils.isEmpty(object)) {
             ExceptionUtil.throwCustomException(MessageCodeEnum.CONVERT_DATA_ERROR);
         }
+
+        Role role = object.getRole();
         return EmployeeDTO
                 .builder()
                 .id(object.getId())
@@ -52,7 +55,9 @@ public class EmployeeMapstruct {
                 .profession(object.getProfession())
                 .maritalStatus(object.getMaritalStatus())
                 .salary(object.getSalary())
-                .roleId(object.getId())
+                .roleId(role.getId())
+                .roleCode(role.getCode())
+                .roleName(role.getName())
                 .build();
     }
 }

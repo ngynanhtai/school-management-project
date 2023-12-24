@@ -18,6 +18,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,14 +91,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeDTO> findEmployeePagination(String query, int page, int limit) {
-        int offset = (page - 1) * limit;
-        List<Employee> employees;
-        if (StringUtils.isEmpty(query)) {
-            employees = employeeRepository.findEmployeePagination(limit, offset).orElse(ListUtil.emptyList());
-        } else {
-            employees = employeeRepository.findEmployeeQueryPagination(query, limit, offset).orElse(ListUtil.emptyList());
-        }
-        return employees.stream().map(EmployeeMapstruct::toDTO).collect(Collectors.toList());
+    public List<EmployeeDTO> findAllEmployeePagination(String sortBy, int page, int limit) {
+        Pageable pageable = StringUtils.isEmpty(sortBy) ? PageRequest.of(page, limit) : PageRequest.of(page, limit, Sort.by(sortBy));
+        Page<Employee> employees = employeeRepository.findAllEmployeePagination(pageable);
+        return employees.getContent().stream().map(EmployeeMapstruct::toDTO).collect(Collectors.toList());
     }
 }

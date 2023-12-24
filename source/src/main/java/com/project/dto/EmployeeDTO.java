@@ -17,7 +17,6 @@ public class EmployeeDTO {
     private Long id;
     private String code;
     private String phoneNumber;
-    @JsonIgnore
     private String password;
     private String fullName;
     private String nationalId;
@@ -33,6 +32,7 @@ public class EmployeeDTO {
     private String maritalStatus;
     private Double salary;
     private String roleCode;
+    private String roleName;
     private Long roleId;
     private boolean deleted;
 }
